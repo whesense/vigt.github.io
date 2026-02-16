@@ -1,0 +1,139 @@
+{
+  "schema_version": "1.0.0",
+  "dataset": "once",
+  "scene_id": "000168",
+  "source_scene_id": "000168",
+  "frame_id": "frame_003601",
+  "camera_names": [
+    "cam01",
+    "cam05",
+    "cam06",
+    "cam07",
+    "cam08",
+    "cam09"
+  ],
+  "modalities": {
+    "images": {
+      "available": true,
+      "files": {
+        "cam01": "images/cam01.webp",
+        "cam05": "images/cam05.webp",
+        "cam06": "images/cam06.webp",
+        "cam07": "images/cam07.webp",
+        "cam08": "images/cam08.webp",
+        "cam09": "images/cam09.webp"
+      },
+      "scaled_files": {
+        "cam01": "images/cam01__scaled.webp",
+        "cam05": "images/cam05__scaled.webp",
+        "cam06": "images/cam06__scaled.webp",
+        "cam07": "images/cam07__scaled.webp",
+        "cam08": "images/cam08__scaled.webp",
+        "cam09": "images/cam09__scaled.webp"
+      },
+      "thumb_files": {
+        "cam01": "images/cam01__thumb.webp",
+        "cam05": "images/cam05__thumb.webp",
+        "cam06": "images/cam06__thumb.webp",
+        "cam07": "images/cam07__thumb.webp",
+        "cam08": "images/cam08__thumb.webp",
+        "cam09": "images/cam09__thumb.webp"
+      }
+    },
+    "attention": {
+      "available": true,
+      "bin": "attention/attention.bin",
+      "meta": "attention/attention.meta.json"
+    },
+    "occupancy": {
+      "available": true,
+      "json": "occupancy/occupancy.json",
+      "bin": "occupancy/occupancy.bin"
+    },
+    "pointclouds": {
+      "available": true,
+      "items": {
+        "vigt": {
+          "json": "pointclouds/vigt.json",
+          "bin": "pointclouds/vigt.bin",
+          "label": "VIGT"
+        },
+        "gt": {
+          "json": "pointclouds/gt.json",
+          "bin": "pointclouds/gt.bin",
+          "label": "GT"
+        },
+        "renderocc": {
+          "json": "pointclouds/renderocc.json",
+          "bin": "pointclouds/renderocc.bin",
+          "label": "RenderOcc"
+        },
+        "cut3r": {
+          "json": "pointclouds/cut3r.json",
+          "bin": "pointclouds/cut3r.bin",
+          "label": "CUT3R"
+        },
+        "vggt": {
+          "json": "pointclouds/vggt.json",
+          "bin": "pointclouds/vggt.bin",
+          "label": "VGGT"
+        }
+      }
+    },
+    "bev": {
+      "available": true,
+      "images": {
+        "80": "images/bev_gt_80m.webp",
+        "40": "images/bev_gt_40m.webp",
+        "20": "images/bev_gt_20m.webp"
+      },
+      "source_model": "gt"
+    },
+    "baked_occ": {
+      "available": true,
+      "all_image": "baked_occ/all.webp",
+      "overlays": {
+        "cam01": "baked_occ/only_cam01.webp",
+        "cam05": "baked_occ/only_cam05.webp",
+        "cam06": "baked_occ/only_cam06.webp",
+        "cam07": "baked_occ/only_cam07.webp",
+        "cam08": "baked_occ/only_cam08.webp",
+        "cam09": "baked_occ/only_cam09.webp"
+      }
+    },
+    "meta": {
+      "available": true,
+      "cameras": "meta/cameras.json",
+      "source_refs": "meta/source_refs.json"
+    }
+  },
+  "indices": {
+    "global_idx": 3601,
+    "frame_id": 1618717158799
+  },
+  "provenance": {
+    "family": "once_snatch",
+    "artifact_dir_name": "data_raw_once_snatch_000168_frame_003601",
+    "normalization": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "resize_shortest": 384,
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "used_cameras": [
+      "cam01",
+      "cam05",
+      "cam06",
+      "cam07",
+      "cam08",
+      "cam09"
+    ]
+  }
+}

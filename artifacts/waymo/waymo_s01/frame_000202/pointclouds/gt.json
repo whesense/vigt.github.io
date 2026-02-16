@@ -1,0 +1,37 @@
+{
+  "points_file": "gt.bin",
+  "count": 149670,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -39.9990234375,
+      39.99609375
+    ],
+    "y": [
+      -39.9970703125,
+      40.0
+    ],
+    "z": [
+      -0.9973487854003906,
+      5.382999420166016
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/waymo/frame_000202/gt_frame000202.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 149670
+  }
+}

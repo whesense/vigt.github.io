@@ -1,0 +1,31 @@
+{
+  "occupancy_file": "occupancy_fp32.bin",
+  "grid_shape": [
+    400,
+    400,
+    32
+  ],
+  "bounds": {
+    "x": [
+      -40.0,
+      40.0
+    ],
+    "y": [
+      -40.0,
+      40.0
+    ],
+    "z": [
+      -1.0,
+      5.400000095367432
+    ]
+  },
+  "voxel_size": 0.2,
+  "occupancy_range": [
+    1.596009609194926e-11,
+    0.9999750852584839
+  ],
+  "source": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_once_snatch_000168_frame_003601/all/occupancy_grid.npz",
+  "dtype": "float32",
+  "encoding": "raw",
+  "num_voxels": 5120000
+}

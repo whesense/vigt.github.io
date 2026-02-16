@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ViGT: Visual Implicit Geometry Transformer">
+  <meta name="description" content="ViGT is an autonomous driving geometric model that estimates continuous 3D occupancy fields from surround-view camera rigs using a calibration-free architecture.">
+  <meta name="keywords" content="autonomous driving, 3D occupancy, BEV, computer vision, transformer, self-supervised learning">
+  <meta name="author" content="ViGT Authors">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ViGT Project">
+  <meta property="og:title" content="ViGT: Visual Implicit Geometry Transformer">
+  <meta property="og:description" content="ViGT is an autonomous driving geometric model that estimates continuous 3D occupancy fields from surround-view camera rigs.">
+  <meta property="og:url" content="https://YOUR_DOMAIN.com/vigt">
+  <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="ViGT: Visual Implicit Geometry Transformer">
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="ViGT: Visual Implicit Geometry Transformer">
+  <meta name="twitter:description" content="ViGT is an autonomous driving geometric model that estimates continuous 3D occupancy fields from surround-view camera rigs.">
+  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="ViGT: Visual Implicit Geometry Transformer">
+  <meta name="citation_publication_date" content="2026">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <title>ViGT: Visual Implicit Geometry Transformer</title>
+  
+  <!-- Critical CSS -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css?v=2026-01-29-demos-wide-v1">
+  
+  <!-- Non-critical CSS -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="static/js/index.js?v=2026-02-13-iframe-height-unclamp-v2"></script>
+  
+  <!-- PDF.js Configuration -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // Load and render PDF
+        async function loadPDF() {
+          const pdfPath = 'static/images/ARCH_SCHEME.pdf';
+          const container = document.getElementById('pdf-viewer');
+          
+          if (!container) return;
+          
+          try {
+            const loadingTask = pdfjsLib.getDocument(pdfPath);
+            const pdf = await loadingTask.promise;
+            
+            // Get first page
+            const page = await pdf.getPage(1);
+            const scale = 2.0;
+            const viewport = page.getViewport({ scale: scale });
+            
+            // Create canvas
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            canvas.style.maxWidth = '100%';
+            canvas.style.height = 'auto';
+            
+            // Render PDF page
+            const renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            
+            await page.render(renderContext).promise;
+            container.appendChild(canvas);
+          } catch (error) {
+            console.error('Error loading PDF:', error);
+            container.innerHTML = '<p style="color: #666;">Error loading PDF. Please ensure the file exists in the content folder.</p>';
+          }
+        }
+        
+        loadPDF();
+      }
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">ViGT: Visual Implicit Geometry Transformer</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Replace with your paper authors -->
+              <span class="author-block">
+                <a href="#" target="_blank">Author Name</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Author Name</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Author Name</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Replace with your institution -->
+              <span class="author-block">Institution Name<br>Conference name and year</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Paper PDF -->
+                <span class="link-block">
+                  <a href="#" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <!-- Code -->
+              <span class="link-block">
+                <a href="#" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+              </a>
+            </span>
+
+            <!-- arXiv -->
+            <span class="link-block">
+              <a href="#" target="_blank"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                <i class="ai ai-arxiv"></i>
+              </span>
+              <span>arXiv</span>
+            </a>
+          </span>
+
+          <!-- HuggingFace -->
+          <span class="link-block">
+            <a href="#" target="_blank"
+            class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              🤗
+            </span>
+            <span>HuggingFace</span>
+          </a>
+        </span>
+
+        <!-- Slides -->
+        <span class="link-block">
+          <a href="#" target="_blank"
+          class="external-link button is-normal is-rounded is-dark">
+          <span class="icon">
+            <i class="fas fa-presentation"></i>
+          </span>
+          <span>Slides</span>
+        </a>
+      </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce the Visual Implicit Geometry Transformer (ViGT), an autonomous driving geometric model that estimates continuous 3D occupancy fields from surround-view camera rigs. ViGT represents a step towards foundational geometric models for autonomous driving, prioritizing scalability, architectural simplicity, and generalization across diverse sensor configurations. Our approach achieves this through a calibration-free architecture, enabling a single model to adapt to different sensor setups. 
+            Unlike general-purpose geometric foundational models that focus on pixel-aligned predictions, ViGT estimates a continuous 3D occupancy field in a bird's-eye-view (BEV) addressing domain-specific requirements.
+            ViGT naturally infers geometry from multiple camera views into a single metric coordinate frame, providing a common representation for multiple geometric tasks.
+            Unlike most existing occupancy models, we adopt a self-supervised training procedure that leverages synchronized image-LiDAR pairs, eliminating the need for costly manual annotations.
+            We validate the scalability and generalizability of our approach by training our model on a mixture of five large-scale autonomous driving datasets (NuScenes, Waymo, NuPlan, ONCE, and Argoverse) and achieving state-of-the-art performance on the pointmap estimation task, with the best average rank across all evaluated baselines. 
+            We further evaluate ViGT on the Occ3D-nuScenes benchmark, where ViGT achieves comparable performance with supervised methods.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Method Section -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our architecture consists of three main components: (1) an image encoder (ViT-L) that independently processes each image and extracts feature tokens from the last four layers, producing four sequences of tokens per image; (2) a calibration-free Implicit BEV Projection module that projects tokens from each encoder layer across all images to their corresponding BEV space, generating four layer-specific BEV representations, which are then aggregated and upsampled into a single unified BEV representation using DPT; and (3) a query-based Implicit Decoder that predicts occupancy probabilities for 3D points from the final BEV features. This design enables pure data-driven scene modeling without geometric inductive biases.
+          </p>
+        </div>
+        <div class="has-text-centered" style="margin-top: 2rem;">
+          <div id="pdf-viewer" style="display: inline-block;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Method Section -->
+
+<!-- Interactive Demos -->
+<section class="section hero is-light" id="interactive-demos">
+  <!-- Use a wider container than the paper text column -->
+  <div class="container is-widescreen demo-embeds-wide">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Interactive demos</h2>
+          <div class="content has-text-justified">
+            <p>
+              These are fully interactive web demos embedded directly in this page. If a demo feels cramped, use the “Open fullscreen” link in each section.
+            </p>
+          </div>
+
+          <nav class="demo-index" aria-label="Demo index">
+            <ul>
+              <li><a href="#demo-compare">Compare: occupancy vs point cloud</a></li>
+              <li><a href="#demo-drop-cameras">Drop cameras</a></li>
+              <li><a href="#demo-forward-attention">Forward attention</a></li>
+              <li><a href="#demo-inverse-attention">Inverse attention</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-subsections">
+      <section class="demo-subsection" id="demo-compare">
+        <div class="demo-subsection__body">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered">
+              <div class="column is-four-fifths">
+              <h3 class="title is-4">3D rendering</h3>
+              <div class="content has-text-justified">
+                <!-- <p class="demo-subtitle">Side-by-side WebGL view with camera strip.</p> -->
+                <!-- TODO(danya): write 2–4 sentences describing what this demo shows, how to interact, and what to look for. -->
+                <p><em>Our occupancy model allows for arbitrary point querying within RoI bounds. 
+                In this demo we explore voxel grids (first frame) and point clouds (second frame) created with it by subsampling and ray-marching. 
+                Ground Truth LiDAR points and other models predictions provided for comparison (can be selected in 2/3 windows dropdown menus). 
+                You can fly over scene with mouse and WASD/arrows keys in voxel grid window.
+                </em></p>
+              </div>
+              <div class="demo-subsection__actions">
+                <button class="button is-small is-dark demo-toggle" type="button"
+                        data-demo-toggle aria-expanded="false" aria-controls="demo-compare-iframe">
+                  <span class="demo-toggle__label">Show demo</span>
+                  <svg class="demo-toggle__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <a class="button is-small is-dark" target="_blank" rel="noopener"
+                   href="./interactive_compare_js/index.html">Open fullscreen</a>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-embed" data-demo-shell data-state="collapsed">
+          <iframe
+            id="demo-compare-iframe"
+            title="Compare: occupancy vs point cloud"
+            loading="lazy"
+            allow="fullscreen"
+            referrerpolicy="no-referrer"
+            data-src="./interactive_compare_js/index.html"
+            hidden></iframe>
+        </div>
+      </section>
+
+      <section class="demo-subsection" id="demo-drop-cameras">
+        <div class="demo-subsection__body">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered">
+              <div class="column is-four-fifths">
+              <h3 class="title is-4">Scene consistency with single camera input.</h3>
+              <div class="content has-text-justified">
+                <!-- <p class="demo-subtitle">Click thumbnails / frustums to swap a camera subset.</p> -->
+                <!-- TODO(danya): write 2–4 sentences describing what this demo shows, how to interact, and what to look for. -->
+                <p><em>
+                  In this demo we show occupancy produced by model (rendered with nerfacc from the top) with all cameras vs single camera available. 
+                  It shows that scene representation stays consistent within observable region. (Unobserved regions are dimmed).
+                  You can select input camera by clicking on frustums or camera images.
+                </em></p>
+              </div>
+              <div class="demo-subsection__actions">
+                <button class="button is-small is-dark demo-toggle" type="button"
+                        data-demo-toggle aria-expanded="false" aria-controls="demo-drop-cameras-iframe">
+                  <span class="demo-toggle__label">Show demo</span>
+                  <svg class="demo-toggle__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <a class="button is-small is-dark" target="_blank" rel="noopener"
+                   href="./interactive_dropcameras_js/index.html">Open fullscreen</a>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-embed demo-embed--tall" data-demo-shell data-state="collapsed">
+          <iframe
+            id="demo-drop-cameras-iframe"
+            title="Drop cameras"
+            loading="lazy"
+            allow="fullscreen"
+            referrerpolicy="no-referrer"
+            data-src="./interactive_dropcameras_js/index.html"
+            hidden></iframe>
+        </div>
+      </section>
+
+      <section class="demo-subsection" id="demo-forward-attention">
+        <div class="demo-subsection__body">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered">
+              <div class="column is-four-fifths">
+              <h3 class="title is-4">BEV queries attention.</h3>
+              <div class="content has-text-justified">
+                <!-- <p class="demo-subtitle">Click a BEV query to view attended camera patches.</p> -->
+                <!-- TODO(danya): write 2–4 sentences describing what this demo shows, how to interact, and what to look for. -->
+                <p><em>
+                  This demo shows how model corresponds latent BEV query cells and desired image regions internally. 
+                  This demo observes attention matrices from last attention block of one of projectors.
+                  You can click on BEV frame to select query cell and image patches will be highlighted according to attention intensity.
+                </em></p>
+              </div>
+              <div class="demo-subsection__actions">
+                <button class="button is-small is-dark demo-toggle" type="button"
+                        data-demo-toggle aria-expanded="false" aria-controls="demo-forward-attention-iframe">
+                  <span class="demo-toggle__label">Show demo</span>
+                  <svg class="demo-toggle__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <a class="button is-small is-dark" target="_blank" rel="noopener"
+                   href="./interactive_forwardattention_js/index.html">Open fullscreen</a>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-embed" data-demo-shell data-state="collapsed">
+          <iframe
+            id="demo-forward-attention-iframe"
+            title="Forward attention visualization"
+            loading="lazy"
+            allow="fullscreen"
+            scrolling="no"
+            referrerpolicy="no-referrer"
+            data-src="./interactive_forwardattention_js/index.html"
+            hidden></iframe>
+        </div>
+      </section>
+
+      <section class="demo-subsection" id="demo-inverse-attention">
+        <div class="demo-subsection__body">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered">
+              <div class="column is-four-fifths">
+              <h3 class="title is-4">Image regions lookup.</h3>
+              <div class="content has-text-justified">
+                <!-- <p class="demo-subtitle">Select camera regions to see which BEV queries attend to them.</p> -->
+                <!-- TODO(danya): write 2–4 sentences describing what this demo shows, how to interact, and what to look for. -->
+                <p><em>
+                  This demo shows Image-BEV learned correspondence from another angle. 
+                  Pick camera and select image regions (and, correspondingly, patches) and see which BEV queries attend to them by intensity highlight.
+                  Multiple regions can be selected on different cameras simultaneously.
+                </em></p>
+              </div>
+              <div class="demo-subsection__actions">
+                <button class="button is-small is-dark demo-toggle" type="button"
+                        data-demo-toggle aria-expanded="false" aria-controls="demo-inverse-attention-iframe">
+                  <span class="demo-toggle__label">Show demo</span>
+                  <svg class="demo-toggle__icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                </button>
+                <a class="button is-small is-dark" target="_blank" rel="noopener"
+                   href="./interactive_invattention_js/index.html">Open fullscreen</a>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="demo-embed" data-demo-shell data-state="collapsed">
+          <iframe
+            id="demo-inverse-attention-iframe"
+            title="Inverse attention visualization"
+            loading="lazy"
+            allow="fullscreen"
+            scrolling="no"
+            referrerpolicy="no-referrer"
+            data-src="./interactive_invattention_js/index.html"
+            hidden></iframe>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+<!-- End Interactive Demos -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@inproceedings{vigt2026,
+  title={ViGT: Visual Implicit Geometry Transformer},
+  author={Your Name and Co-authors},
+  booktitle={Proceedings of the Conference},
+  year={2026}
+}</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  </body>
+  </html>

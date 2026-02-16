@@ -1,0 +1,37 @@
+{
+  "points_file": "renderocc.bin",
+  "count": 149670,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -21.87294578552246,
+      15.793039321899414
+    ],
+    "y": [
+      -3.0076775550842285,
+      31.32118797302246
+    ],
+    "z": [
+      0.09073570370674133,
+      3.317206859588623
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/waymo/frame_000202/renderocc_frame000202.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 149670
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "schema_version": "1.0.0",
+  "dataset": "nuscenes",
+  "scene_id": "scene-0935",
+  "source_scene_id": "scene-0935",
+  "frame_id": "frame_004947",
+  "camera_names": [
+    "CAM_BACK",
+    "CAM_BACK_LEFT",
+    "CAM_BACK_RIGHT",
+    "CAM_FRONT",
+    "CAM_FRONT_LEFT",
+    "CAM_FRONT_RIGHT"
+  ],
+  "modalities": {
+    "images": {
+      "available": true,
+      "files": {
+        "CAM_BACK": "images/CAM_BACK.webp",
+        "CAM_BACK_LEFT": "images/CAM_BACK_LEFT.webp",
+        "CAM_BACK_RIGHT": "images/CAM_BACK_RIGHT.webp",
+        "CAM_FRONT": "images/CAM_FRONT.webp",
+        "CAM_FRONT_LEFT": "images/CAM_FRONT_LEFT.webp",
+        "CAM_FRONT_RIGHT": "images/CAM_FRONT_RIGHT.webp"
+      },
+      "scaled_files": {
+        "CAM_BACK": "images/CAM_BACK__scaled.webp",
+        "CAM_BACK_LEFT": "images/CAM_BACK_LEFT__scaled.webp",
+        "CAM_BACK_RIGHT": "images/CAM_BACK_RIGHT__scaled.webp",
+        "CAM_FRONT": "images/CAM_FRONT__scaled.webp",
+        "CAM_FRONT_LEFT": "images/CAM_FRONT_LEFT__scaled.webp",
+        "CAM_FRONT_RIGHT": "images/CAM_FRONT_RIGHT__scaled.webp"
+      },
+      "thumb_files": {
+        "CAM_BACK": "images/CAM_BACK__thumb.webp",
+        "CAM_BACK_LEFT": "images/CAM_BACK_LEFT__thumb.webp",
+        "CAM_BACK_RIGHT": "images/CAM_BACK_RIGHT__thumb.webp",
+        "CAM_FRONT": "images/CAM_FRONT__thumb.webp",
+        "CAM_FRONT_LEFT": "images/CAM_FRONT_LEFT__thumb.webp",
+        "CAM_FRONT_RIGHT": "images/CAM_FRONT_RIGHT__thumb.webp"
+      }
+    },
+    "attention": {
+      "available": true,
+      "bin": "attention/attention.bin",
+      "meta": "attention/attention.meta.json"
+    },
+    "occupancy": {
+      "available": true,
+      "json": "occupancy/occupancy.json",
+      "bin": "occupancy/occupancy.bin"
+    },
+    "pointclouds": {
+      "available": true,
+      "items": {
+        "vigt": {
+          "json": "pointclouds/vigt.json",
+          "bin": "pointclouds/vigt.bin",
+          "label": "VIGT"
+        },
+        "gt": {
+          "json": "pointclouds/gt.json",
+          "bin": "pointclouds/gt.bin",
+          "label": "GT"
+        },
+        "cut3r": {
+          "json": "pointclouds/cut3r.json",
+          "bin": "pointclouds/cut3r.bin",
+          "label": "CUT3R"
+        },
+        "vggt": {
+          "json": "pointclouds/vggt.json",
+          "bin": "pointclouds/vggt.bin",
+          "label": "VGGT"
+        }
+      }
+    },
+    "bev": {
+      "available": true,
+      "images": {
+        "80": "images/bev_gt_80m.webp",
+        "40": "images/bev_gt_40m.webp",
+        "20": "images/bev_gt_20m.webp"
+      },
+      "source_model": "gt"
+    },
+    "baked_occ": {
+      "available": true,
+      "all_image": "baked_occ/all.webp",
+      "overlays": {
+        "CAM_BACK": "baked_occ/only_CAM_BACK.webp",
+        "CAM_BACK_LEFT": "baked_occ/only_CAM_BACK_LEFT.webp",
+        "CAM_BACK_RIGHT": "baked_occ/only_CAM_BACK_RIGHT.webp",
+        "CAM_FRONT": "baked_occ/only_CAM_FRONT.webp",
+        "CAM_FRONT_LEFT": "baked_occ/only_CAM_FRONT_LEFT.webp",
+        "CAM_FRONT_RIGHT": "baked_occ/only_CAM_FRONT_RIGHT.webp"
+      }
+    },
+    "meta": {
+      "available": true,
+      "cameras": "meta/cameras.json",
+      "source_refs": "meta/source_refs.json"
+    }
+  },
+  "indices": {
+    "global_idx": 4947,
+    "scene_sample_idx": 23,
+    "timestamp": 1538450127697695,
+    "sample_token": "b4a2a3d1803a41a5a1b63616a890fc3f"
+  },
+  "provenance": {
+    "family": "nuscenes_snatch",
+    "artifact_dir_name": "data_raw_nuscenes_snatch_scene-0935_frame_004947",
+    "normalization": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "resize_shortest": 384,
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    },
+    "used_cameras": [
+      "CAM_BACK",
+      "CAM_BACK_LEFT",
+      "CAM_BACK_RIGHT",
+      "CAM_FRONT",
+      "CAM_FRONT_LEFT",
+      "CAM_FRONT_RIGHT"
+    ]
+  }
+}

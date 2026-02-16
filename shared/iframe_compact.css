@@ -1,0 +1,291 @@
+/* shared/iframe_compact.css
+ * Compact, mostly-borderless overrides for iframe demos.
+ *
+ * Load AFTER `shared/iframe_theme.css` in each iframe so these rules win.
+ * Goal: maximize usable pixels for imagery/canvases, keep only a thin selection outline.
+ */
+
+:root {
+  --compact-gap: 6px;
+  --compact-pad: 10px;
+}
+
+/* Tighter global feel */
+body {
+  line-height: 1.35;
+}
+
+/* Keep iframe background consistent (theme controls this). */
+
+/* Keep 3D demos black (as-is) even if iframe body is transparent */
+#canvas-container,
+#viewer,
+#bottom-pane,
+#main {
+  background: #1a1a1a !important;
+}
+
+/* Remove “black canvas tile” look for 2D canvases only */
+#camera-canvas,
+#bev-canvas,
+.thumbnail-canvas,
+.imgStage__overlay,
+.imgStage__img,
+.camera-strip-item canvas {
+  background: transparent !important;
+}
+
+/* ========= Forward/Inverse attention demos ========= */
+
+/* Reduce outer whitespace and remove “card” borders */
+.main-layout {
+  gap: 12px !important;
+  padding: var(--compact-pad) !important;
+}
+
+.below-strip-layout {
+  gap: 12px !important;
+}
+
+.camera-strip-view {
+  padding: 10px 12px !important;
+  border-bottom: 0 !important;
+  background: transparent !important;
+}
+
+.camera-strip {
+  gap: var(--compact-gap) !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.camera-view,
+.bev-view,
+.top-controls {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Let canvases/images use more area */
+.camera-container,
+.bev-container {
+  padding: 0 !important;
+  margin-bottom: 10px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  min-height: 0 !important;
+}
+
+#camera-canvas,
+#bev-canvas {
+  border-radius: 0 !important;
+}
+
+/* Thumbnails: borderless, nearly touching, selection via outline */
+.camera-thumb-item {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.camera-thumb-item:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  outline: 1px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 0;
+}
+
+.camera-thumb-item.selected {
+  border-width: 0 !important;
+  box-shadow: none !important;
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 0;
+}
+
+.thumbnail-canvas {
+  border-radius: 0 !important;
+}
+
+.thumbnail-label {
+  padding: 6px 4px !important;
+  font-size: 0.8rem !important;
+}
+
+/* Forward-attention strip: make camera canvases larger */
+.camera-strip--forward {
+  height: 290px !important;
+  max-height: 290px !important;
+}
+
+.camera-strip-item {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.camera-strip--forward .camera-strip-item canvas {
+  max-height: none !important;
+  height: 220px !important;
+  width: auto !important;
+  border-radius: 0 !important;
+}
+
+/* Inverse-attention strip: keep a constrained window + aligned rhythm */
+.camera-strip--inverse {
+  max-height: 230px !important;
+  min-height: 0 !important;
+  gap: 8px !important;
+  padding: 4px 0 !important;
+  align-items: flex-start !important;
+}
+
+.camera-strip--inverse .thumbnail-label {
+  padding: 6px 4px !important;
+}
+
+/* ========= Drop-cameras demo ========= */
+
+.layout {
+  gap: 10px !important;
+  padding: var(--compact-pad) !important;
+}
+
+.cameraStrip {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.cameraStrip__inner {
+  gap: var(--compact-gap) !important;
+  padding-bottom: 0 !important;
+}
+
+.cameraButton {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.cameraButton:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  outline: 1px solid rgba(37, 99, 235, 0.35);
+  outline-offset: 0;
+}
+
+.cameraButton--selected {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 0;
+}
+
+.cameraButton__img {
+  border-radius: 0 !important;
+}
+
+.panel {
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.panel__title {
+  padding: 0 0 6px 0 !important;
+}
+
+.panels {
+  gap: 12px !important;
+}
+
+.imgStage {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+/* ========= Compare demo (inline CSS) ========= */
+
+#top-pane {
+  padding: var(--compact-pad) !important;
+  border-bottom: 1px solid var(--border) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+#thumb-strip {
+  gap: var(--compact-gap) !important;
+  padding: 6px 0 !important;
+  background: var(--bg-tertiary) !important;
+}
+
+.thumb {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--bg-secondary) !important;
+  box-shadow: none !important;
+  width: 340px !important;
+  height: 210px !important;
+}
+
+@media (max-width: 980px) {
+  .thumb {
+    width: 280px !important;
+    height: 172px !important;
+  }
+}
+
+@media (max-width: 680px) {
+  .thumb {
+    width: 220px !important;
+    height: 136px !important;
+  }
+}
+
+.thumb.selected {
+  border-color: transparent !important;
+  box-shadow: none !important;
+  outline: 2px solid var(--accent) !important;
+  outline-offset: 0;
+}
+
+.thumb .image-strip-label {
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+}
+
+.tag {
+  border: 0 !important;
+  background: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* ========= Pointcloud / occupancy demos ========= */
+
+header {
+  padding: 10px 12px !important;
+  background: transparent !important;
+}
+
+#main-content {
+  padding-top: 62px !important;
+}
+
+#sidebar,
+#controls {
+  border: 0 !important;
+  background: transparent !important;
+  padding: 10px 12px !important;
+}

@@ -1,0 +1,10 @@
+{
+  "artifact_dir": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_once_snatch_000168_frame_003601",
+  "attention_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_once_snatch_000168_frame_003601/all/attention.npz",
+  "occupancy_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_once_snatch_000168_frame_003601/all/occupancy_grid.npz",
+  "meta_used_json": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_once_snatch_000168_frame_003601/all/meta_used.json",
+  "images_dir": "/Users/danya/vigt_viz/demo/downloaded_images/once_snatch/000168/frame_003601",
+  "image_meta_json": "/Users/danya/vigt_viz/demo/downloaded_images/once_snatch/000168/frame_003601/meta.json",
+  "pointcloud_dir": "/Users/danya/vigt_viz/demo/downloaded_frames/once/frame_003601",
+  "pointcloud_warnings": []
+}

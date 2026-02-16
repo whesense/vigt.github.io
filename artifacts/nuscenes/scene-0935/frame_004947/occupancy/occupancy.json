@@ -1,0 +1,34 @@
+{
+  "occupancy_file": "occupancy.bin",
+  "grid_shape": [
+    400,
+    400,
+    32
+  ],
+  "bounds": {
+    "x": [
+      -40.0,
+      40.0
+    ],
+    "y": [
+      -40.0,
+      40.0
+    ],
+    "z": [
+      -1.0,
+      5.400000095367432
+    ]
+  },
+  "voxel_size": 0.2,
+  "occupancy_range": [
+    2.9873038869756457e-16,
+    0.9999887943267822
+  ],
+  "source": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_nuscenes_snatch_scene-0935_frame_004947/all/occupancy_grid.npz",
+  "dtype": "bit",
+  "encoding": "bitset",
+  "num_voxels": 5120000,
+  "bake_threshold": 0.5,
+  "bitorder": "lsb0",
+  "packed_bytes": 640000
+}

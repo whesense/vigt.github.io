@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inverse Attention Visualization</title>
+    <link rel="stylesheet" href="styles/main.css?v=2026-02-16-embed-scroll-v1">
+    <link rel="stylesheet" href="../shared/iframe_theme.css">
+    <link rel="stylesheet" href="../shared/iframe_compact.css">
+</head>
+<body>
+    <div id="app">
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading scene data...</p>
+        </div>
+        
+        <div id="main-content" class="hidden">
+            <div id="context-dock" class="context-dock"></div>
+            <!-- Camera strip -->
+            <section id="camera-strip-view" class="camera-strip-view camera-strip-view--inverse">
+                <h2>Cameras</h2>
+                <div id="camera-strip" class="camera-strip camera-strip--inverse" aria-label="Camera strip"></div>
+            </section>
+            
+            <!-- Main Layout -->
+            <div class="main-layout">
+                <!-- Left: Camera View -->
+                <section id="camera-view" class="camera-view">
+                    <h2 id="camera-title">Camera: <span id="camera-name">-</span></h2>
+                    <div class="camera-container">
+                        <canvas id="camera-canvas"></canvas>
+                    </div>
+                    <div class="camera-controls">
+                        <div class="region-list">
+                            <h3>Selected Regions</h3>
+                            <div id="regions-list"></div>
+                            <div class="button-group">
+                                <button id="clear-camera-btn" class="btn btn-secondary">Clear Current Camera</button>
+                                <button id="clear-all-btn" class="btn btn-secondary">Clear All Cameras</button>
+                            </div>
+                        </div>
+
+                        <div class="bev-controls">
+                            <div class="control-group">
+                                <label>
+                                    Zoom:
+                                    <select id="bev-zoom-select">
+                                        <option value="80" selected>80×80m</option>
+                                        <option value="40">40×40m</option>
+                                        <option value="20">20×20m</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    Aggregation:
+                                    <select id="aggregation-select">
+                                        <option value="sum">Sum</option>
+                                        <option value="max">Max</option>
+                                        <option value="mean">Mean</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    Heads:
+                                    <select id="heads-select">
+                                        <option value="mean">Mean over heads</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    Precision:
+                                    <select id="attn-precision-select">
+                                        <option value="auto" selected>Auto</option>
+                                        <option value="int8">Int8</option>
+                                        <option value="int4">Int4</option>
+                                        <option value="fp32">FP32</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Right: BEV View -->
+                <section id="bev-view" class="bev-view">
+                    <h2>BEV Attention Map</h2>
+                    <div class="bev-container">
+                        <img id="bev-base-img" class="bev-base-img hidden" alt="BEV base layer" />
+                        <canvas id="bev-canvas"></canvas>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <div id="error" class="error hidden">
+            <p id="error-message"></p>
+        </div>
+    </div>
+    
+    <script type="module" src="src/app.js?v=2026-02-10-inv-manifest-only-v1"></script>
+    <script type="module" src="../shared/iframe_autoheight.js?v=2026-02-16-embed-class-v1"></script>
+</body>
+</html>

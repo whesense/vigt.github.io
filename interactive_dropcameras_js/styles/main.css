@@ -1,0 +1,194 @@
+/* Minimal, project-page-friendly styling */
+
+:root {
+  --bg: #0f1115;
+  --panel: rgba(255, 255, 255, 0.04);
+  --panelBorder: rgba(255, 255, 255, 0.08);
+  --text: #eaeef5;
+  --muted: rgba(234, 238, 245, 0.72);
+  --accent: #66b2ff;
+  --accent2: #ffd166;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: auto;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  background: radial-gradient(1000px 600px at 30% -10%, rgba(102, 178, 255, 0.18), transparent),
+    radial-gradient(900px 500px at 80% 0%, rgba(255, 209, 102, 0.12), transparent),
+    var(--bg);
+  color: var(--text);
+}
+
+#app {
+  /* Allow content-driven height (important for iframe auto-resize). */
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--panelBorder);
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+}
+
+.header__title {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.header__subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.layout {
+  min-height: 0;
+  display: grid;
+  /* Don't stretch the panels to fill leftover iframe height. */
+  grid-template-rows: auto auto;
+  align-content: start;
+  gap: 10px;
+  padding: 12px;
+  width: 100%;
+  margin: 0;
+}
+
+.cameraStrip {
+  border: 1px solid var(--panelBorder);
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.cameraStrip__inner {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.cameraButton {
+  flex: 0 0 auto;
+  width: 150px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 8px;
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.cameraButton:hover {
+  transform: translateY(-1px);
+  border-color: rgba(102, 178, 255, 0.65);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.cameraButton--selected {
+  border-color: rgba(102, 178, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(102, 178, 255, 0.35) inset;
+}
+
+.cameraButton__img {
+  width: 100%;
+  height: 78px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.cameraButton__label {
+  margin-top: 7px;
+  font-size: 12px;
+  color: var(--muted);
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.panels {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.panel {
+  min-height: 0;
+  border: 1px solid var(--panelBorder);
+  background: var(--panel);
+  border-radius: 12px;
+  padding: 10px;
+  display: grid;
+  /* Let the image stage define height instead of stretching. */
+  grid-template-rows: auto auto;
+  gap: 8px;
+}
+
+/* Keep two columns on desktop/tablet; stack only on narrow phones. */
+@media (max-width: 640px) {
+  .panels {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    width: 100%;
+  }
+}
+
+.panel__title {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.panel__titleEm {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.imgStage {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 280px;
+  /* These occupancy renders are square; keeping a fixed ratio removes letterbox gaps. */
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.imgStage__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  image-rendering: auto;
+}
+
+.imgStage__overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+}

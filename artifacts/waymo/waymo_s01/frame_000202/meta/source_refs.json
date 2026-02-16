@@ -1,0 +1,10 @@
+{
+  "artifact_dir": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_waymo_snatch_test_10980133015080705026_780_000_800_000_frame_000202",
+  "attention_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_waymo_snatch_test_10980133015080705026_780_000_800_000_frame_000202/all/attention.npz",
+  "occupancy_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_waymo_snatch_test_10980133015080705026_780_000_800_000_frame_000202/all/occupancy_grid.npz",
+  "meta_used_json": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_waymo_snatch_test_10980133015080705026_780_000_800_000_frame_000202/all/meta_used.json",
+  "images_dir": "/Users/danya/vigt_viz/demo/downloaded_images/waymo_snatch_test/10980133015080705026_780_000_800_000/frame_000202",
+  "image_meta_json": "/Users/danya/vigt_viz/demo/downloaded_images/waymo_snatch_test/10980133015080705026_780_000_800_000/frame_000202/meta.json",
+  "pointcloud_dir": "/Users/danya/vigt_viz/demo/downloaded_frames/waymo/frame_000202",
+  "pointcloud_warnings": []
+}

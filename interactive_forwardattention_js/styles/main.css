@@ -1,0 +1,289 @@
+/**
+ * Main stylesheet for Forward Attention Visualization
+ */
+
+:root {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-tertiary: #3a3a3a;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --accent: #4a9eff;
+    --accent-hover: #6bb0ff;
+    --border: #404040;
+    --error: #f44336;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.5;
+    min-height: 0;
+}
+
+html,
+body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+html.is-embedded,
+html.is-embedded body,
+body.is-embedded {
+    overflow-y: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+header {
+    background: var(--bg-secondary);
+    padding: 1.25rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+header h1 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 1rem;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error {
+    background: var(--error);
+    color: white;
+    padding: 1rem 2rem;
+    margin: 1rem 2rem;
+    border-radius: 6px;
+}
+
+.top-controls {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.top-controls h2 {
+    margin-bottom: 0.25rem;
+    font-size: 1.2rem;
+}
+
+.control-group {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.control-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.control-group select,
+.control-group input[type="range"] {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    padding: 0.4rem 0.6rem;
+}
+
+#alpha-value {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+    min-width: 3.5rem;
+    display: inline-block;
+}
+
+.status-line {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.main-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    max-width: 2800px;
+    margin: 0 auto;
+}
+
+.below-strip-layout {
+    display: grid;
+    grid-template-columns: minmax(320px, 420px) 1fr;
+    gap: 1.25rem;
+    align-items: start;
+}
+
+/* Override compact iframe defaults with slightly larger spacing. */
+#main-content .main-layout {
+    gap: 16px !important;
+    padding: 16px !important;
+}
+
+#main-content .below-strip-layout {
+    gap: 16px !important;
+}
+
+#main-content .top-controls,
+#main-content .bev-view,
+#main-content .camera-strip-view {
+    padding: 10px !important;
+}
+
+@media (max-width: 820px) {
+    .main-layout {
+        padding: 1rem;
+    }
+
+    .below-strip-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bev-view,
+.camera-strip-view {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+}
+
+.bev-view h2,
+.camera-strip-view h2 {
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.bev-container {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* keep BEV attached to top */
+    min-height: 420px;
+    position: relative;
+}
+
+#bev-base-img,
+.bev-base-img {
+    position: absolute;
+    inset: 1rem; /* match container padding */
+    width: calc(100% - 2rem);
+    height: calc(100% - 2rem);
+    object-fit: contain;
+    border-radius: 4px;
+    pointer-events: none;
+    user-select: none;
+}
+
+#bev-canvas {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    background: #fff;
+    cursor: crosshair;
+    position: relative;
+    z-index: 1;
+}
+
+.camera-strip {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.5rem;
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+    height: 340px;       /* "window" height so BEV stays visible */
+    max-height: 340px;
+    align-items: flex-start;
+}
+
+.camera-strip-item {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.camera-strip-item canvas {
+    border-radius: 4px;
+    background: #000;
+    cursor: default;
+    max-height: 280px;   /* fit inside strip window */
+}
+
+.camera-strip-label {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--border);
+}

@@ -1,0 +1,36 @@
+{
+  "all_image": "../baked_occ/all.webp",
+  "camera_overlay_map": {
+    "cam01": "../baked_occ/only_cam01.webp",
+    "cam05": "../baked_occ/only_cam05.webp",
+    "cam06": "../baked_occ/only_cam06.webp",
+    "cam07": "../baked_occ/only_cam07.webp",
+    "cam08": "../baked_occ/only_cam08.webp",
+    "cam09": "../baked_occ/only_cam09.webp"
+  },
+  "camera_meta_file": "../meta/cameras.json",
+  "camera_order": [
+    "cam01",
+    "cam05",
+    "cam06",
+    "cam07",
+    "cam08",
+    "cam09"
+  ],
+  "camera_images": {
+    "cam01": "../images/cam01.webp",
+    "cam05": "../images/cam05.webp",
+    "cam06": "../images/cam06.webp",
+    "cam07": "../images/cam07.webp",
+    "cam08": "../images/cam08.webp",
+    "cam09": "../images/cam09.webp"
+  },
+  "camera_thumb_images": {
+    "cam01": "../images/cam01__thumb.webp",
+    "cam05": "../images/cam05__thumb.webp",
+    "cam06": "../images/cam06__thumb.webp",
+    "cam07": "../images/cam07__thumb.webp",
+    "cam08": "../images/cam08__thumb.webp",
+    "cam09": "../images/cam09__thumb.webp"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "points_file": "vggt.bin",
+  "count": 96169,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -37.51853561401367,
+      27.04958724975586
+    ],
+    "y": [
+      -64.86327362060547,
+      56.0589485168457
+    ],
+    "z": [
+      -0.6963275671005249,
+      8.405529022216797
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/av2/frame_013572/vggt_frame013572.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 96169
+  }
+}

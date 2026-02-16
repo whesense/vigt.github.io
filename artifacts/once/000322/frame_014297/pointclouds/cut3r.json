@@ -1,0 +1,37 @@
+{
+  "points_file": "cut3r.bin",
+  "count": 59973,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -41.85710144042969,
+      38.937747955322266
+    ],
+    "y": [
+      -43.410400390625,
+      100.59617614746094
+    ],
+    "z": [
+      -3.30328369140625,
+      33.623390197753906
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/once/frame_014297/cut3r_frame014297.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 59973
+  }
+}

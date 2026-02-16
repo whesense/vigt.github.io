@@ -1,0 +1,431 @@
+{
+  "version": 1,
+  "datasets": [
+    {
+      "dataset": "av2",
+      "scenes": [
+        {
+          "scene_id": "av2_s33",
+          "source_scene_id": "4612f4a4-59b0-37d4-b3d1-400a1324920c",
+          "frames": [
+            {
+              "frame_id": "frame_005295",
+              "path": "av2/av2_s33/frame_005295",
+              "manifests": {
+                "frame": "av2/av2_s33/frame_005295/manifests/frame.json",
+                "compare": "av2/av2_s33/frame_005295/manifests/compare.scene.json",
+                "attention": "av2/av2_s33/frame_005295/manifests/attention.scene.json",
+                "dropcameras": "av2/av2_s33/frame_005295/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "av2_s41",
+          "source_scene_id": "4e6d6bcd-8718-3e71-b9c1-7c352c991a56",
+          "frames": [
+            {
+              "frame_id": "frame_006565",
+              "path": "av2/av2_s41/frame_006565",
+              "manifests": {
+                "frame": "av2/av2_s41/frame_006565/manifests/frame.json",
+                "compare": "av2/av2_s41/frame_006565/manifests/compare.scene.json",
+                "attention": "av2/av2_s41/frame_006565/manifests/attention.scene.json",
+                "dropcameras": "av2/av2_s41/frame_006565/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "av2_s86",
+          "source_scene_id": "9da07440-1001-3b00-a29f-c8bdc2f2b7d4",
+          "frames": [
+            {
+              "frame_id": "frame_013572",
+              "path": "av2/av2_s86/frame_013572",
+              "manifests": {
+                "frame": "av2/av2_s86/frame_013572/manifests/frame.json",
+                "compare": "av2/av2_s86/frame_013572/manifests/compare.scene.json",
+                "attention": "av2/av2_s86/frame_013572/manifests/attention.scene.json",
+                "dropcameras": "av2/av2_s86/frame_013572/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "av2_s94",
+          "source_scene_id": "a89557fc-1268-36e5-9cce-335f2da27bc8",
+          "frames": [
+            {
+              "frame_id": "frame_014779",
+              "path": "av2/av2_s94/frame_014779",
+              "manifests": {
+                "frame": "av2/av2_s94/frame_014779/manifests/frame.json",
+                "compare": "av2/av2_s94/frame_014779/manifests/compare.scene.json",
+                "attention": "av2/av2_s94/frame_014779/manifests/attention.scene.json",
+                "dropcameras": "av2/av2_s94/frame_014779/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "nuscenes",
+      "scenes": [
+        {
+          "scene_id": "scene-0081",
+          "source_scene_id": "scene-0081",
+          "frames": [
+            {
+              "frame_id": "frame_000185",
+              "path": "nuscenes/scene-0081/frame_000185",
+              "manifests": {
+                "frame": "nuscenes/scene-0081/frame_000185/manifests/frame.json",
+                "compare": "nuscenes/scene-0081/frame_000185/manifests/compare.scene.json",
+                "attention": "nuscenes/scene-0081/frame_000185/manifests/attention.scene.json",
+                "dropcameras": "nuscenes/scene-0081/frame_000185/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "scene-0935",
+          "source_scene_id": "scene-0935",
+          "frames": [
+            {
+              "frame_id": "frame_004947",
+              "path": "nuscenes/scene-0935/frame_004947",
+              "manifests": {
+                "frame": "nuscenes/scene-0935/frame_004947/manifests/frame.json",
+                "compare": "nuscenes/scene-0935/frame_004947/manifests/compare.scene.json",
+                "attention": "nuscenes/scene-0935/frame_004947/manifests/attention.scene.json",
+                "dropcameras": "nuscenes/scene-0935/frame_004947/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "scene-1033",
+          "source_scene_id": "scene-1033",
+          "frames": [
+            {
+              "frame_id": "frame_005587",
+              "path": "nuscenes/scene-1033/frame_005587",
+              "manifests": {
+                "frame": "nuscenes/scene-1033/frame_005587/manifests/frame.json",
+                "compare": "nuscenes/scene-1033/frame_005587/manifests/compare.scene.json",
+                "attention": "nuscenes/scene-1033/frame_005587/manifests/attention.scene.json",
+                "dropcameras": "nuscenes/scene-1033/frame_005587/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "once",
+      "scenes": [
+        {
+          "scene_id": "000168",
+          "source_scene_id": "000168",
+          "frames": [
+            {
+              "frame_id": "frame_003601",
+              "path": "once/000168/frame_003601",
+              "manifests": {
+                "frame": "once/000168/frame_003601/manifests/frame.json",
+                "compare": "once/000168/frame_003601/manifests/compare.scene.json",
+                "attention": "once/000168/frame_003601/manifests/attention.scene.json",
+                "dropcameras": "once/000168/frame_003601/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "000200",
+          "source_scene_id": "000200",
+          "frames": [
+            {
+              "frame_id": "frame_004946",
+              "path": "once/000200/frame_004946",
+              "manifests": {
+                "frame": "once/000200/frame_004946/manifests/frame.json",
+                "compare": "once/000200/frame_004946/manifests/compare.scene.json",
+                "attention": "once/000200/frame_004946/manifests/attention.scene.json",
+                "dropcameras": "once/000200/frame_004946/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "000322",
+          "source_scene_id": "000322",
+          "frames": [
+            {
+              "frame_id": "frame_014297",
+              "path": "once/000322/frame_014297",
+              "manifests": {
+                "frame": "once/000322/frame_014297/manifests/frame.json",
+                "compare": "once/000322/frame_014297/manifests/compare.scene.json",
+                "attention": "once/000322/frame_014297/manifests/attention.scene.json",
+                "dropcameras": "once/000322/frame_014297/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "waymo",
+      "scenes": [
+        {
+          "scene_id": "waymo_s01",
+          "source_scene_id": "10980133015080705026_780_000_800_000",
+          "frames": [
+            {
+              "frame_id": "frame_000202",
+              "path": "waymo/waymo_s01/frame_000202",
+              "manifests": {
+                "frame": "waymo/waymo_s01/frame_000202/manifests/frame.json",
+                "compare": "waymo/waymo_s01/frame_000202/manifests/compare.scene.json",
+                "attention": "waymo/waymo_s01/frame_000202/manifests/attention.scene.json",
+                "dropcameras": "waymo/waymo_s01/frame_000202/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        },
+        {
+          "scene_id": "waymo_s15",
+          "source_scene_id": "8993680275027614595_2520_000_2540_000",
+          "frames": [
+            {
+              "frame_id": "frame_003040",
+              "path": "waymo/waymo_s15/frame_003040",
+              "manifests": {
+                "frame": "waymo/waymo_s15/frame_003040/manifests/frame.json",
+                "compare": "waymo/waymo_s15/frame_003040/manifests/compare.scene.json",
+                "attention": "waymo/waymo_s15/frame_003040/manifests/attention.scene.json",
+                "dropcameras": "waymo/waymo_s15/frame_003040/manifests/dropcameras.scene.json"
+              },
+              "modalities": {
+                "images": true,
+                "attention": true,
+                "occupancy": true,
+                "pointclouds": [
+                  "vigt",
+                  "gt",
+                  "renderocc",
+                  "cut3r",
+                  "vggt"
+                ],
+                "bev_base_images": [
+                  "20",
+                  "40",
+                  "80"
+                ],
+                "baked_occ": true
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

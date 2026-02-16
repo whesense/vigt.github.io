@@ -1,0 +1,37 @@
+{
+  "points_file": "renderocc.bin",
+  "count": 54302,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -12.192378044128418,
+      18.33969497680664
+    ],
+    "y": [
+      -21.41105079650879,
+      28.63197135925293
+    ],
+    "z": [
+      -0.11587059497833252,
+      4.303273677825928
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/once/frame_003601/renderocc_frame003601.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 54302
+  }
+}

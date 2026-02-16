@@ -1,0 +1,66 @@
+{
+  "frame": 121,
+  "images": [
+    {
+      "name": "front center",
+      "url": "images/ring_front_center.jpg"
+    },
+    {
+      "name": "front left",
+      "url": "images/ring_front_left.jpg"
+    },
+    {
+      "name": "front right",
+      "url": "images/ring_front_right.jpg"
+    },
+    {
+      "name": "rear left",
+      "url": "images/ring_rear_left.jpg"
+    },
+    {
+      "name": "rear right",
+      "url": "images/ring_rear_right.jpg"
+    },
+    {
+      "name": "side left",
+      "url": "images/ring_side_left.jpg"
+    },
+    {
+      "name": "side right",
+      "url": "images/ring_side_right.jpg"
+    }
+  ],
+  "occupancy": {
+    "url": "occ_frame000121.json"
+  },
+  "pointcloud": {
+    "url": "vigt_frame000121.json"
+  },
+  "pointclouds": [
+    {
+      "key": "vigt",
+      "label": "ViGT",
+      "url": "vigt_frame000121.json"
+    },
+    {
+      "key": "gt",
+      "label": "GT",
+      "url": "gt_frame000121.json"
+    },
+    {
+      "key": "renderocc",
+      "label": "RenderOcc",
+      "url": "renderocc_frame000121.json"
+    },
+    {
+      "key": "cut3r",
+      "label": "Cut3r",
+      "url": "cut3r_frame000121.json"
+    },
+    {
+      "key": "vggt",
+      "label": "VGGT",
+      "url": "vggt_frame000121.json"
+    }
+  ]
+}

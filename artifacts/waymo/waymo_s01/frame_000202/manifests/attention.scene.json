@@ -1,0 +1,90 @@
+{
+  "image_names": [
+    "FRONT",
+    "FRONT_LEFT",
+    "FRONT_RIGHT",
+    "LEFT",
+    "RIGHT"
+  ],
+  "image_files": [
+    "../images/FRONT__scaled.webp",
+    "../images/FRONT_LEFT__scaled.webp",
+    "../images/FRONT_RIGHT__scaled.webp",
+    "../images/LEFT__scaled.webp",
+    "../images/RIGHT__scaled.webp"
+  ],
+  "original_image_files": [
+    "../images/FRONT.webp",
+    "../images/FRONT_LEFT.webp",
+    "../images/FRONT_RIGHT.webp",
+    "../images/LEFT.webp",
+    "../images/RIGHT.webp"
+  ],
+  "attn_weights_file": "../attention/attention.bin",
+  "attn_weights_shape": [
+    1,
+    8,
+    1024,
+    1539
+  ],
+  "attn_variants": {
+    "fp32": {
+      "file": "../attention/attention.bin",
+      "dtype": "float32",
+      "encoding": "raw"
+    },
+    "int8_phs_v1": {
+      "file": "../attention/attention.int8.bin",
+      "dtype": "int8",
+      "encoding": "symmetric_per_head",
+      "scale_file": "../attention/attention.int8.scales.bin",
+      "scale_dtype": "float32",
+      "scale_shape": [
+        1,
+        8,
+        1,
+        1
+      ]
+    },
+    "int4_phq_v1": {
+      "file": "../attention/attention.int4.bin",
+      "dtype": "int4",
+      "encoding": "symmetric_per_head_query_packed_int4",
+      "scale_file": "../attention/attention.int4.scales.bin",
+      "scale_dtype": "float32",
+      "scale_shape": [
+        1,
+        8,
+        1024,
+        1
+      ]
+    }
+  },
+  "lidar_pts": null,
+  "metadata": {
+    "grid_size": 32,
+    "patch_size": 14,
+    "bev_range": [
+      -40.0,
+      40.0,
+      -40.0,
+      40.0
+    ],
+    "has_cls_tokens": true,
+    "image_format": "files",
+    "image_display_order": [
+      "FRONT",
+      "FRONT_LEFT",
+      "FRONT_RIGHT",
+      "LEFT",
+      "RIGHT"
+    ],
+    "bev_base_images": {
+      "80": "../images/bev_gt_80m.webp",
+      "40": "../images/bev_gt_40m.webp",
+      "20": "../images/bev_gt_20m.webp"
+    },
+    "bev_base_image": "../images/bev_gt_80m.webp",
+    "attn_precision_default": "int4_phq_v1"
+  }
+}

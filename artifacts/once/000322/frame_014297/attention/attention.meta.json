@@ -1,0 +1,52 @@
+{
+  "attn_weights_file": "attention.bin",
+  "attn_weights_shape": [
+    1,
+    8,
+    1024,
+    1956
+  ],
+  "dtype": "float32",
+  "camera_names": [
+    "cam01",
+    "cam05",
+    "cam06",
+    "cam07",
+    "cam08",
+    "cam09"
+  ],
+  "n_heads": 8,
+  "n_queries": 1024,
+  "grid_size": 32,
+  "has_cls_tokens": true,
+  "source": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_once_snatch_000322_frame_014297/all/attention.npz",
+  "quantized_variants": {
+    "int4_phq_v1": {
+      "file": "attention.int4.bin",
+      "dtype": "int4",
+      "encoding": "symmetric_per_head_query_packed_int4",
+      "scale_file": "attention.int4.scales.bin",
+      "scale_dtype": "float32",
+      "scale_shape": [
+        1,
+        8,
+        1024,
+        1
+      ]
+    },
+    "int8_phs_v1": {
+      "file": "attention.int8.bin",
+      "dtype": "int8",
+      "encoding": "symmetric_per_head",
+      "scale_file": "attention.int8.scales.bin",
+      "scale_dtype": "float32",
+      "scale_shape": [
+        1,
+        8,
+        1,
+        1
+      ]
+    }
+  },
+  "attn_precision_default": "int4_phq_v1"
+}

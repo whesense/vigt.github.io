@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "dataset": "av2",
+  "scene_id": "av2_s01",
+  "source_scene_id": "av2_s01",
+  "frame_id": "frame_000121",
+  "camera_names": [
+    "ring_front_center",
+    "ring_front_left",
+    "ring_front_right",
+    "ring_rear_left",
+    "ring_rear_right",
+    "ring_side_left",
+    "ring_side_right"
+  ],
+  "modalities": {
+    "images": {
+      "available": true,
+      "files": {
+        "ring_front_center": "images/ring_front_center.webp",
+        "ring_front_left": "images/ring_front_left.webp",
+        "ring_front_right": "images/ring_front_right.webp",
+        "ring_rear_left": "images/ring_rear_left.webp",
+        "ring_rear_right": "images/ring_rear_right.webp",
+        "ring_side_left": "images/ring_side_left.webp",
+        "ring_side_right": "images/ring_side_right.webp"
+      },
+      "scaled_files": {
+        "ring_front_center": "images/ring_front_center.webp",
+        "ring_front_left": "images/ring_front_left.webp",
+        "ring_front_right": "images/ring_front_right.webp",
+        "ring_rear_left": "images/ring_rear_left.webp",
+        "ring_rear_right": "images/ring_rear_right.webp",
+        "ring_side_left": "images/ring_side_left.webp",
+        "ring_side_right": "images/ring_side_right.webp"
+      },
+      "thumb_files": {
+        "ring_front_center": "images/ring_front_center__thumb.webp",
+        "ring_front_left": "images/ring_front_left__thumb.webp",
+        "ring_front_right": "images/ring_front_right__thumb.webp",
+        "ring_rear_left": "images/ring_rear_left__thumb.webp",
+        "ring_rear_right": "images/ring_rear_right__thumb.webp",
+        "ring_side_left": "images/ring_side_left__thumb.webp",
+        "ring_side_right": "images/ring_side_right__thumb.webp"
+      }
+    },
+    "attention": {
+      "available": false
+    },
+    "occupancy": {
+      "available": true,
+      "json": "occupancy/occupancy.json",
+      "bin": "occupancy/occupancy.bin"
+    },
+    "pointclouds": {
+      "available": true,
+      "items": {
+        "vigt": {
+          "json": "pointclouds/vigt.json",
+          "bin": "pointclouds/vigt.bin",
+          "label": "VIGT"
+        },
+        "gt": {
+          "json": "pointclouds/gt.json",
+          "bin": "pointclouds/gt.bin",
+          "label": "GT"
+        },
+        "renderocc": {
+          "json": "pointclouds/renderocc.json",
+          "bin": "pointclouds/renderocc.bin",
+          "label": "RenderOcc"
+        },
+        "cut3r": {
+          "json": "pointclouds/cut3r.json",
+          "bin": "pointclouds/cut3r.bin",
+          "label": "CUT3R"
+        },
+        "vggt": {
+          "json": "pointclouds/vggt.json",
+          "bin": "pointclouds/vggt.bin",
+          "label": "VGGT"
+        }
+      }
+    },
+    "bev": {
+      "available": false,
+      "images": {},
+      "source_model": null
+    },
+    "baked_occ": {
+      "available": false,
+      "all_image": null,
+      "overlays": {}
+    },
+    "meta": {
+      "available": false
+    }
+  },
+  "indices": {},
+  "provenance": {
+    "family": "legacy_av2",
+    "artifact_dir_name": "frame_000121"
+  }
+}

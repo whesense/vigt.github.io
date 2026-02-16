@@ -1,0 +1,279 @@
+/* shared/iframe_theme.css
+ * Shared "clean light" theme for all iframe demos.
+ * Each iframe is isolated, so every demo must explicitly include this file.
+ */
+
+:root {
+  /* Used by forward/inverse attention demos (CSS variables) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --border: #e5e7eb;
+
+  /* Used by drop-cameras demo (different variable set) */
+  --bg: #ffffff;
+  --panel: rgba(17, 24, 39, 0.03);
+  --panelBorder: rgba(17, 24, 39, 0.10);
+  --text: #111827;
+  --muted: rgba(17, 24, 39, 0.65);
+  --accent2: #f59e0b;
+}
+
+html,
+body {
+  /* Force override dark inline / gradient backgrounds */
+  background-color: var(--bg-primary) !important;
+  background-image: none !important;
+  background: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Generic headers (used by several demos) */
+header,
+.header {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(6px);
+}
+
+header p,
+header .hint,
+.header__subtitle,
+.panel__title,
+.cameraButton__label,
+.thumbnail-label,
+.camera-strip-label {
+  color: var(--text-secondary);
+}
+
+code {
+  color: var(--accent);
+}
+
+/* Forward/inverse attention demos: remove "dark" tile look */
+.camera-strip-item,
+.camera-thumb-item,
+.bev-view,
+.camera-strip-view,
+.camera-view,
+.top-controls {
+  background: var(--bg-secondary);
+}
+
+.camera-strip,
+.bev-container,
+.camera-container {
+  background: var(--bg-tertiary);
+}
+
+.camera-strip-item {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+
+.camera-thumb-item {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+
+.camera-thumb-item:hover {
+  box-shadow: 0 8px 18px rgba(17, 24, 39, 0.08);
+}
+
+.camera-thumb-item.selected {
+  box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px rgba(37, 99, 235, 0.55);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-tertiary);
+}
+
+/* Compare demo (inline CSS uses dark rgba backgrounds) */
+#top-pane {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid var(--border);
+}
+
+#thumb-strip {
+  background: var(--bg-tertiary);
+}
+
+.thumb {
+  background: var(--bg-secondary);
+  border-color: var(--border);
+}
+
+.thumb .image-strip-label {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+/* Pointcloud + occupancy demos: light sidebars */
+#sidebar,
+#controls {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--border);
+  color: var(--text-primary);
+}
+
+#sidebar .hint,
+#controls .hint,
+#controls h2 {
+  color: var(--text-secondary);
+}
+
+#controls .control select,
+#controls .control input[type="number"] {
+  background: #ffffff;
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+/* Drop-cameras demo */
+.cameraStrip,
+.panel {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--border);
+}
+
+.imgStage {
+  background: var(--bg-tertiary);
+  border-color: var(--border);
+}
+
+/* Dataset frame dock (shared selector) */
+.context-dock {
+  margin-bottom: 10px;
+}
+
+.dataset-dock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.dataset-dock__datasets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.dataset-dock__chip {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text-primary);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.dataset-dock__chip.is-selected {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.dataset-dock__film {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dataset-dock__nav {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 0;
+}
+
+.dataset-dock__nav:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.dataset-dock__strip {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px;
+  align-items: center;
+  flex: 1;
+  scroll-behavior: smooth;
+}
+
+.dataset-dock__tile {
+  width: 96px;
+  height: 64px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-tertiary);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  flex: 0 0 auto;
+  padding: 0;
+}
+
+.dataset-dock__tile.is-selected {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.18);
+}
+
+.dataset-dock__thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dataset-dock__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: linear-gradient(135deg, rgba(17, 24, 39, 0.04), rgba(17, 24, 39, 0.08));
+  text-align: center;
+  padding: 4px;
+}
+
+.dataset-dock__label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+.cameraButton {
+  background: #ffffff;
+  border-color: var(--border);
+}
+
+.cameraButton:hover {
+  background: var(--bg-tertiary);
+}

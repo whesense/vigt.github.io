@@ -1,0 +1,36 @@
+{
+  "all_image": "../baked_occ/all.webp",
+  "camera_overlay_map": {
+    "CAM_BACK": "../baked_occ/only_CAM_BACK.webp",
+    "CAM_BACK_LEFT": "../baked_occ/only_CAM_BACK_LEFT.webp",
+    "CAM_BACK_RIGHT": "../baked_occ/only_CAM_BACK_RIGHT.webp",
+    "CAM_FRONT": "../baked_occ/only_CAM_FRONT.webp",
+    "CAM_FRONT_LEFT": "../baked_occ/only_CAM_FRONT_LEFT.webp",
+    "CAM_FRONT_RIGHT": "../baked_occ/only_CAM_FRONT_RIGHT.webp"
+  },
+  "camera_meta_file": "../meta/cameras.json",
+  "camera_order": [
+    "CAM_BACK",
+    "CAM_BACK_LEFT",
+    "CAM_BACK_RIGHT",
+    "CAM_FRONT",
+    "CAM_FRONT_LEFT",
+    "CAM_FRONT_RIGHT"
+  ],
+  "camera_images": {
+    "CAM_BACK": "../images/CAM_BACK.webp",
+    "CAM_BACK_LEFT": "../images/CAM_BACK_LEFT.webp",
+    "CAM_BACK_RIGHT": "../images/CAM_BACK_RIGHT.webp",
+    "CAM_FRONT": "../images/CAM_FRONT.webp",
+    "CAM_FRONT_LEFT": "../images/CAM_FRONT_LEFT.webp",
+    "CAM_FRONT_RIGHT": "../images/CAM_FRONT_RIGHT.webp"
+  },
+  "camera_thumb_images": {
+    "CAM_BACK": "../images/CAM_BACK__thumb.webp",
+    "CAM_BACK_LEFT": "../images/CAM_BACK_LEFT__thumb.webp",
+    "CAM_BACK_RIGHT": "../images/CAM_BACK_RIGHT__thumb.webp",
+    "CAM_FRONT": "../images/CAM_FRONT__thumb.webp",
+    "CAM_FRONT_LEFT": "../images/CAM_FRONT_LEFT__thumb.webp",
+    "CAM_FRONT_RIGHT": "../images/CAM_FRONT_RIGHT__thumb.webp"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "points_file": "gt_frame000121.bin",
+  "count": 77142,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -40.0,
+      40.0
+    ],
+    "y": [
+      -40.0,
+      40.0
+    ],
+    "z": [
+      -0.99853515625,
+      5.3984375
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "data_raw/frame_000121/gt_frame000121.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 77142
+  }
+}

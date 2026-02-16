@@ -1,0 +1,37 @@
+{
+  "points_file": "vigt.bin",
+  "count": 24238,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -28.923737,
+      24.087301
+    ],
+    "y": [
+      -39.1138,
+      39.59074
+    ],
+    "z": [
+      -0.942013,
+      5.383852
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/nuscenes/frame_005587/vigt_frame005587.ply",
+    "ply_format": "ascii 1.0",
+    "vertex_count": 24238
+  }
+}

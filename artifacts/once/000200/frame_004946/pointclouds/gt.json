@@ -1,0 +1,37 @@
+{
+  "points_file": "gt.bin",
+  "count": 53615,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -39.9815788269043,
+      39.016510009765625
+    ],
+    "y": [
+      -39.994895935058594,
+      39.9849853515625
+    ],
+    "z": [
+      -0.686976432800293,
+      5.376145362854004
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/once/frame_004946/gt_frame004946.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 53615
+  }
+}

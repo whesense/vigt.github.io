@@ -1,0 +1,12 @@
+{
+  "artifact_dir": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_nuscenes_snatch_scene-0935_frame_004947",
+  "attention_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_nuscenes_snatch_scene-0935_frame_004947/all/attention.npz",
+  "occupancy_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_nuscenes_snatch_scene-0935_frame_004947/all/occupancy_grid.npz",
+  "meta_used_json": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_nuscenes_snatch_scene-0935_frame_004947/all/meta_used.json",
+  "images_dir": "/Users/danya/vigt_viz/demo/downloaded_images/nuscenes_snatch/scene-0935/frame_004947",
+  "image_meta_json": "/Users/danya/vigt_viz/demo/downloaded_images/nuscenes_snatch/scene-0935/frame_004947/meta.json",
+  "pointcloud_dir": "/Users/danya/vigt_viz/demo/downloaded_frames/nuscenes/frame_004947",
+  "pointcloud_warnings": [
+    "missing pointcloud model 'renderocc' at /Users/danya/vigt_viz/demo/downloaded_frames/nuscenes/frame_004947/renderocc_frame004947.ply"
+  ]
+}

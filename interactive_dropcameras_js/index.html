@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Drop Cameras (Project Page)</title>
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="stylesheet" href="../shared/iframe_theme.css" />
+    <link rel="stylesheet" href="../shared/iframe_compact.css" />
+  </head>
+  <body>
+    <div id="app">
+      <main class="layout">
+        <div id="context-dock" class="context-dock"></div>
+        <section class="cameraStrip" aria-label="Cameras">
+          <div id="camera-strip" class="cameraStrip__inner"></div>
+        </section>
+
+        <section class="panels" aria-label="Panels">
+          <div class="panel">
+            <div class="panel__title">Full surround (reference)</div>
+            <div class="imgStage">
+              <img id="img-all" class="imgStage__img" alt="Full surround occupancy" />
+              <canvas id="overlay-all" class="imgStage__overlay"></canvas>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__title">
+              Selected subset:
+              <span id="selected-label" class="panel__titleEm">—</span>
+            </div>
+            <div class="imgStage">
+              <img id="img-selected" class="imgStage__img" alt="Selected occupancy" />
+              <canvas id="overlay-selected" class="imgStage__overlay"></canvas>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./src/app.js"></script>
+    <script type="module" src="../shared/iframe_autoheight.js"></script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "artifact_dir": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_9da07440-1001-3b00-a29f-c8bdc2f2b7d4_frame_013572",
+  "attention_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_9da07440-1001-3b00-a29f-c8bdc2f2b7d4_frame_013572/all/attention.npz",
+  "occupancy_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_9da07440-1001-3b00-a29f-c8bdc2f2b7d4_frame_013572/all/occupancy_grid.npz",
+  "meta_used_json": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_9da07440-1001-3b00-a29f-c8bdc2f2b7d4_frame_013572/all/meta_used.json",
+  "images_dir": "/Users/danya/vigt_viz/demo/downloaded_images/av2_snatch/9da07440-1001-3b00-a29f-c8bdc2f2b7d4/frame_013572",
+  "image_meta_json": "/Users/danya/vigt_viz/demo/downloaded_images/av2_snatch/9da07440-1001-3b00-a29f-c8bdc2f2b7d4/frame_013572/meta.json",
+  "pointcloud_dir": "/Users/danya/vigt_viz/demo/downloaded_frames/av2/frame_013572",
+  "pointcloud_warnings": []
+}

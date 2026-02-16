@@ -1,0 +1,37 @@
+{
+  "points_file": "vigt.bin",
+  "count": 143017,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -15.974294662475586,
+      38.747215270996094
+    ],
+    "y": [
+      -38.094398498535156,
+      38.93888473510742
+    ],
+    "z": [
+      -0.8642714023590088,
+      4.7545061111450195
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/waymo/frame_003040/vigt_frame003040.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 143017
+  }
+}

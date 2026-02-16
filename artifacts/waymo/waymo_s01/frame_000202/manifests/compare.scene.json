@@ -1,0 +1,58 @@
+{
+  "frame": 202,
+  "images": [
+    {
+      "name": "FRONT",
+      "url": "../images/FRONT__thumb.webp"
+    },
+    {
+      "name": "FRONT LEFT",
+      "url": "../images/FRONT_LEFT__thumb.webp"
+    },
+    {
+      "name": "FRONT RIGHT",
+      "url": "../images/FRONT_RIGHT__thumb.webp"
+    },
+    {
+      "name": "LEFT",
+      "url": "../images/LEFT__thumb.webp"
+    },
+    {
+      "name": "RIGHT",
+      "url": "../images/RIGHT__thumb.webp"
+    }
+  ],
+  "occupancy": {
+    "url": "../occupancy/occupancy.json"
+  },
+  "pointclouds": [
+    {
+      "key": "vigt",
+      "label": "VIGT",
+      "url": "../pointclouds/vigt.json"
+    },
+    {
+      "key": "gt",
+      "label": "GT",
+      "url": "../pointclouds/gt.json"
+    },
+    {
+      "key": "renderocc",
+      "label": "RenderOcc",
+      "url": "../pointclouds/renderocc.json"
+    },
+    {
+      "key": "cut3r",
+      "label": "CUT3R",
+      "url": "../pointclouds/cut3r.json"
+    },
+    {
+      "key": "vggt",
+      "label": "VGGT",
+      "url": "../pointclouds/vggt.json"
+    }
+  ],
+  "pointcloud": {
+    "url": "../pointclouds/vigt.json"
+  }
+}

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compare: Occupancy vs Point Cloud</title>
+  <style>
+    :root {
+      --app-vh: 100vh;
+    }
+    html {
+      width: 100%;
+      height: var(--app-vh);
+      overflow: hidden;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #1a1a1a;
+      color: #ffffff;
+      overflow: hidden;
+      width: 100%;
+      height: var(--app-vh);
+      min-width: 0;
+    }
+
+    #loading, #error {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    #loading.hidden, #error.hidden { display: none; }
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #4a9eff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #main {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      /* Keep 3D canvases stable: top row has a floor, but avoid runaway heights. */
+      grid-template-rows: minmax(240px, clamp(280px, calc(var(--app-vh) * 0.46), 460px)) minmax(220px, 1fr);
+      min-width: 0;
+      overflow: hidden;
+    }
+    #main.hidden { display: none; }
+
+    /* Top pane: infinite camera strip */
+    #top-pane {
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 12px;
+      /* Keep strip paints/layout self-contained (helps iframe stability). */
+      contain: layout paint;
+      position: relative;
+      z-index: 2;
+      min-height: 0;
+      min-width: 0;
+    }
+    /* Keep top area truly white even though shared iframe CSS forces #main dark. */
+    #main #top-pane {
+      background: #ffffff !important;
+      border-bottom: 1px solid #e5e7eb !important;
+    }
+    #controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .controls-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    #controls-bar label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.75);
+      user-select: none;
+      white-space: nowrap;
+    }
+    #controls-bar select {
+      background: #ffffff;
+      color: #111827;
+      border: 0;
+      border-radius: 10px;
+      padding: 6px 28px 6px 10px;
+      outline: none;
+      box-shadow: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M5.25 7.5L10 12.25 14.75 7.5 16 8.75l-6 6-6-6z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px 12px;
+      cursor: pointer;
+    }
+    #reset-view {
+      font-size: 0.85rem;
+      color: #111827;
+      text-decoration: none;
+      border: 0;
+      border-radius: 10px;
+      padding: 6px 10px;
+      background: #ffffff;
+      box-shadow: none;
+      cursor: pointer;
+    }
+    #reset-view:hover { text-decoration: none; }
+    #reset-view:focus { outline: none; }
+    .hintline {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.65);
+      white-space: nowrap;
+    }
+    /* Hide legacy top controls (use URL params / defaults instead). */
+    #controls-bar { display: none; }
+
+    #main #thumb-strip {
+      display: flex;
+      gap: 8px !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 4px 0 !important;
+      background: transparent !important;
+      align-items: center;
+      flex: 1 1 auto;
+      min-height: 168px;
+      max-height: 230px;
+      min-width: 0;
+    }
+    /* Keep compare strip clean and compact, without affecting the scene dock strip. */
+    #thumb-strip .thumb {
+      flex: 0 0 auto;
+      width: auto !important;
+      height: 160px !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      overflow: hidden !important;
+      cursor: grab;
+      position: relative;
+      display: block;
+      padding: 0 !important;
+      box-shadow: none !important;
+    }
+    #thumb-strip .thumb img {
+      width: auto !important;
+      height: 100% !important;
+      max-width: none !important;
+      object-fit: contain !important;
+      display: block;
+      border-radius: 0 !important;
+      background: transparent !important;
+    }
+    #thumb-strip .thumb .image-strip-label {
+      display: none !important;
+    }
+    #thumb-strip .thumb.selected {
+      border-color: transparent !important;
+      box-shadow: none !important;
+      outline: 2px solid var(--accent, rgba(74, 158, 255, 0.95)) !important;
+      outline-offset: 0;
+    }
+
+    /* Bottom pane: two canvases (more robust than scissor split) */
+    #bottom-pane {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      contain: layout paint;
+      z-index: 1;
+      min-height: 0;
+      min-width: 0;
+    }
+    #bottom-split {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      width: 100%;
+      height: 100%;
+      grid-template-columns: repeat(var(--pane-count, 2), minmax(0, 1fr));
+      min-height: 0;
+      min-width: 0;
+    }
+    #gl-canvas-left, #gl-canvas-right, #gl-canvas-third {
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      min-width: 0;
+      display: block;
+    }
+    .hidden { display: none !important; }
+    #viewport-labels {
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      right: 12px;
+      display: grid;
+      grid-template-columns: repeat(var(--pane-count, 2), minmax(0, 1fr));
+      gap: 10px;
+      pointer-events: none;
+      font-size: 0.85rem;
+      color: #d6d6d6;
+      min-width: 0;
+    }
+    /* NOTE: shared iframe CSS overrides `.tag` for compare demo.
+       Use higher specificity + !important so our pills are truly opaque. */
+    #viewport-labels .tag {
+      padding: 6px 10px;
+      border-radius: 10px;
+      background: #ffffff !important;
+      border: 0 !important;
+      color: #111827 !important;
+      justify-self: start;
+      box-shadow: none !important;
+    }
+    .tag.has-select {
+      pointer-events: auto;
+      padding: 4px 8px;
+      cursor: pointer;
+    }
+    .tag.has-select select {
+      background: transparent;
+      color: inherit;
+      border: 0;
+      outline: none;
+      font-size: 0.85rem;
+      padding: 2px 2px;
+      -webkit-appearance: none;
+      appearance: none;
+      box-shadow: none;
+      cursor: pointer;
+    }
+    .tag.has-select select:disabled { opacity: 0.6; }
+    /* Custom arrow on the *pill* (not the select) */
+    #viewport-labels .tag.has-select {
+      position: relative;
+      padding-right: 26px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 20 20'%3E%3Cpath fill='%236B7280' d='M5.25 7.5L10 12.25 14.75 7.5 16 8.75l-6 6-6-6z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 12px 12px;
+    }
+    /* Extra explicit indicator (triangle), even if native arrows show/hide. */
+    #viewport-labels .tag.has-select::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-30%);
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 6px solid #6b7280;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+    code { color: #9fd0ff; }
+
+    @media (max-width: 980px) {
+      :root {
+        --pane-count: 2;
+      }
+      #main {
+        grid-template-rows: minmax(190px, clamp(220px, calc(var(--app-vh) * 0.42), 340px)) minmax(180px, 1fr);
+      }
+      #gl-canvas-third,
+      #label-pc-b {
+        display: none !important;
+      }
+      #thumb-strip .thumb img {
+        height: 136px !important;
+      }
+    }
+
+    @media (max-width: 680px) {
+      #thumb-strip .thumb img {
+        height: 112px !important;
+      }
+    }
+
+  </style>
+  <link rel="stylesheet" href="../shared/iframe_theme.css">
+  <link rel="stylesheet" href="../shared/iframe_compact.css">
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <div class="hint">Loading scene…</div>
+  </div>
+
+  <div id="error" class="hidden">
+    <h2>Error</h2>
+    <div id="error-message" class="hint"></div>
+  </div>
+
+  <div id="main" class="hidden">
+    <section id="top-pane">
+      <div id="context-dock" class="context-dock"></div>
+      <div id="controls-bar" aria-label="Compare controls">
+        <div class="controls-left">
+          <label for="pane-mode">Panes</label>
+          <select id="pane-mode">
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+          </select>
+          <a id="reset-view" href="#" aria-label="Reset view">Reset</a>
+        </div>
+        <div class="hintline">WASD / Q,E, mouse orbit</div>
+      </div>
+      <div id="thumb-strip" class="camera-strip camera-strip--inverse" aria-label="Camera images"></div>
+    </section>
+
+    <section id="bottom-pane">
+      <div id="bottom-split">
+        <canvas id="gl-canvas-left"></canvas>
+        <canvas id="gl-canvas-right"></canvas>
+        <canvas id="gl-canvas-third" class="hidden"></canvas>
+      </div>
+      <div id="viewport-labels">
+        <div class="tag" id="label-occ">Occupancy voxels</div>
+        <div class="tag has-select" id="label-pc-a">
+          <select id="pc-select-a" aria-label="PointCloud A"></select>
+        </div>
+        <div class="tag has-select hidden" id="label-pc-b">
+          <select id="pc-select-b" aria-label="PointCloud B"></select>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Import map for Three.js examples modules (OrbitControls imports 'three') -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <!-- Cache-bust -->
+  <script type="module" src="src/app.js?v=2026-02-13-mobile-pane-strip-v1"></script>
+  <script type="module" src="../shared/iframe_autoheight.js?v=2026-02-13-layout-fix1"></script>
+</body>
+</html>

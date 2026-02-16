@@ -1,0 +1,37 @@
+{
+  "points_file": "cut3r.bin",
+  "count": 149670,
+  "stride_bytes": 12,
+  "attributes": [
+    {
+      "name": "position",
+      "type": "float32",
+      "components": 3,
+      "offset": 0
+    }
+  ],
+  "bounds": {
+    "x": [
+      -65.31230926513672,
+      47.00537872314453
+    ],
+    "y": [
+      -26.67636489868164,
+      74.94446563720703
+    ],
+    "z": [
+      -0.5468056201934814,
+      10.792232513427734
+    ]
+  },
+  "convention": {
+    "up_axis": "Z",
+    "xy_swap": true,
+    "data_is_swapped": true
+  },
+  "source": {
+    "ply": "/Users/danya/vigt_viz/demo/downloaded_frames/waymo/frame_000202/cut3r_frame000202.ply",
+    "ply_format": "binary_little_endian 1.0",
+    "vertex_count": 149670
+  }
+}

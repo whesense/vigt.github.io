@@ -1,0 +1,10 @@
+{
+  "artifact_dir": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_4612f4a4-59b0-37d4-b3d1-400a1324920c_frame_005295",
+  "attention_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_4612f4a4-59b0-37d4-b3d1-400a1324920c_frame_005295/all/attention.npz",
+  "occupancy_npz": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_4612f4a4-59b0-37d4-b3d1-400a1324920c_frame_005295/all/occupancy_grid.npz",
+  "meta_used_json": "/Users/danya/vigt_viz/demo/artifacts_out/data_raw_av2_snatch_4612f4a4-59b0-37d4-b3d1-400a1324920c_frame_005295/all/meta_used.json",
+  "images_dir": "/Users/danya/vigt_viz/demo/downloaded_images/av2_snatch/4612f4a4-59b0-37d4-b3d1-400a1324920c/frame_005295",
+  "image_meta_json": "/Users/danya/vigt_viz/demo/downloaded_images/av2_snatch/4612f4a4-59b0-37d4-b3d1-400a1324920c/frame_005295/meta.json",
+  "pointcloud_dir": "/Users/danya/vigt_viz/demo/downloaded_frames/av2/frame_005295",
+  "pointcloud_warnings": []
+}

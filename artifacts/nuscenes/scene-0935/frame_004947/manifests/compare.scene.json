@@ -1,0 +1,57 @@
+{
+  "frame": 4947,
+  "images": [
+    {
+      "name": "CAM BACK",
+      "url": "../images/CAM_BACK__thumb.webp"
+    },
+    {
+      "name": "CAM BACK LEFT",
+      "url": "../images/CAM_BACK_LEFT__thumb.webp"
+    },
+    {
+      "name": "CAM BACK RIGHT",
+      "url": "../images/CAM_BACK_RIGHT__thumb.webp"
+    },
+    {
+      "name": "CAM FRONT",
+      "url": "../images/CAM_FRONT__thumb.webp"
+    },
+    {
+      "name": "CAM FRONT LEFT",
+      "url": "../images/CAM_FRONT_LEFT__thumb.webp"
+    },
+    {
+      "name": "CAM FRONT RIGHT",
+      "url": "../images/CAM_FRONT_RIGHT__thumb.webp"
+    }
+  ],
+  "occupancy": {
+    "url": "../occupancy/occupancy.json"
+  },
+  "pointclouds": [
+    {
+      "key": "vigt",
+      "label": "VIGT",
+      "url": "../pointclouds/vigt.json"
+    },
+    {
+      "key": "gt",
+      "label": "GT",
+      "url": "../pointclouds/gt.json"
+    },
+    {
+      "key": "cut3r",
+      "label": "CUT3R",
+      "url": "../pointclouds/cut3r.json"
+    },
+    {
+      "key": "vggt",
+      "label": "VGGT",
+      "url": "../pointclouds/vggt.json"
+    }
+  ],
+  "pointcloud": {
+    "url": "../pointclouds/vigt.json"
+  }
+}
