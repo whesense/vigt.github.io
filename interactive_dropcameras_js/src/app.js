@@ -2,6 +2,7 @@ import {
   DEFAULT_BEV_BOUNDS,
   DEFAULT_ORIENTATION,
   buildCameraWedgePx,
+  drawBlindAreaMaskNoClear,
   drawDimMaskSelectedNoClear,
   drawWedgeOutlinesNoClear,
   hitTestWedges,
@@ -121,7 +122,7 @@ class DropCamerasApp {
 
     this.lengthMeters = 15.0;
     this.bounds = DEFAULT_BEV_BOUNDS;
-    this.dimAlpha = 0.32;
+    this.dimAlpha = 0.50;
 
     // If overlays appear mirrored, tweak these.
     this.orient = { ...DEFAULT_ORIENTATION };
@@ -407,8 +408,12 @@ class DropCamerasApp {
     ctxAll.clearRect(0, 0, ctxAll.canvas.width, ctxAll.canvas.height);
     ctxAll.save();
     ctxAll.translate(this._rectAll.x, this._rectAll.y);
-    // Full surround is a reference view: don't dim it.
-    drawWedgeOutlinesNoClear(ctxAll, this._wedgesAll, this.selectedCam);
+    // Dim only blind areas on full surround (outside camera coverage).
+    drawBlindAreaMaskNoClear(ctxAll, this._wedgesAll, this.dimAlpha, {
+      width: this._rectAll.width,
+      height: this._rectAll.height,
+    });
+    drawWedgeOutlinesNoClear(ctxAll, this._wedgesAll, this.selectedCam, { selectedFillAlpha: 0 });
     ctxAll.restore();
 
     ctxSel.setTransform(1, 0, 0, 1, 0, 0);

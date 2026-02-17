@@ -247,6 +247,91 @@ function pathForWedge(ctx, wdg) {
   ctx.closePath();
 }
 
+function pathForPoly(ctx, poly) {
+  if (!Array.isArray(poly) || poly.length < 3) return;
+  ctx.beginPath();
+  ctx.moveTo(poly[0][0], poly[0][1]);
+  for (let i = 1; i < poly.length; i++) {
+    ctx.lineTo(poly[i][0], poly[i][1]);
+  }
+  ctx.closePath();
+}
+
+function clipPolygonAgainstHalfPlane(poly, isInside, intersect) {
+  if (!Array.isArray(poly) || poly.length === 0) return [];
+  const out = [];
+  let prev = poly[poly.length - 1];
+  let prevInside = isInside(prev);
+  for (const cur of poly) {
+    const curInside = isInside(cur);
+    if (curInside) {
+      if (!prevInside) out.push(intersect(prev, cur));
+      out.push(cur);
+    } else if (prevInside) {
+      out.push(intersect(prev, cur));
+    }
+    prev = cur;
+    prevInside = curInside;
+  }
+  return out;
+}
+
+function clipPolygonToRect(poly, w, h) {
+  let p = poly;
+  const eps = 1e-9;
+  p = clipPolygonAgainstHalfPlane(
+    p,
+    (v) => v[0] >= -eps,
+    (a, b) => {
+      const t = (0 - a[0]) / ((b[0] - a[0]) || 1e-12);
+      return [0, a[1] + t * (b[1] - a[1])];
+    }
+  );
+  p = clipPolygonAgainstHalfPlane(
+    p,
+    (v) => v[0] <= w + eps,
+    (a, b) => {
+      const t = (w - a[0]) / ((b[0] - a[0]) || 1e-12);
+      return [w, a[1] + t * (b[1] - a[1])];
+    }
+  );
+  p = clipPolygonAgainstHalfPlane(
+    p,
+    (v) => v[1] >= -eps,
+    (a, b) => {
+      const t = (0 - a[1]) / ((b[1] - a[1]) || 1e-12);
+      return [a[0] + t * (b[0] - a[0]), 0];
+    }
+  );
+  p = clipPolygonAgainstHalfPlane(
+    p,
+    (v) => v[1] <= h + eps,
+    (a, b) => {
+      const t = (h - a[1]) / ((b[1] - a[1]) || 1e-12);
+      return [a[0] + t * (b[0] - a[0]), h];
+    }
+  );
+  return p;
+}
+
+function coveragePolyToImageBorders(wedge, w, h) {
+  if (!wedge || !Array.isArray(wedge.poly) || wedge.poly.length < 3) return null;
+  const o = wedge.poly[0];
+  const a = wedge.poly[1];
+  const b = wedge.poly[2];
+  const da = normalize2([a[0] - o[0], a[1] - o[1]]);
+  const db = normalize2([b[0] - o[0], b[1] - o[1]]);
+  const far = Math.max(w, h) * 4;
+  const tri = [
+    [o[0], o[1]],
+    [o[0] + da[0] * far, o[1] + da[1] * far],
+    [o[0] + db[0] * far, o[1] + db[1] * far],
+  ];
+  const clipped = clipPolygonToRect(tri, w, h);
+  if (!Array.isArray(clipped) || clipped.length < 3) return wedge.poly;
+  return clipped;
+}
+
 /**
  * Dim everything, then punch out a hole for selected wedge.
  * Intended to run in a coordinate system where the canvas origin matches the image top-left.
@@ -266,25 +351,61 @@ export function drawDimMaskSelectedNoClear(ctx, wedges, selectedCam, dimAlpha = 
   // Punch out observed region
   const sel = wedges.find((x) => x.cam === selectedCam);
   if (sel) {
+    const poly = coveragePolyToImageBorders(sel, w, h);
     ctx.globalCompositeOperation = "destination-out";
-    pathForWedge(ctx, sel);
+    // Must be fully opaque for a clean, uniform punch-out.
+    ctx.fillStyle = "rgba(0, 0, 0, 1)";
+    pathForPoly(ctx, poly || sel.poly);
     ctx.fill();
   }
 
   ctx.restore();
 }
 
-export function drawWedgeOutlinesNoClear(ctx, wedges, selectedCam) {
+/**
+ * Dim only blind areas by punching out all camera wedges from a full-image dim layer.
+ * Intended to run in a coordinate system where the canvas origin matches the image top-left.
+ */
+export function drawBlindAreaMaskNoClear(ctx, wedges, dimAlpha = 0.6, size = null) {
+  const w = (size && size.width) || ctx.canvas.width;
+  const h = (size && size.height) || ctx.canvas.height;
+
+  ctx.save();
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = `rgba(0, 0, 0, ${Math.max(0, Math.min(1, dimAlpha))})`;
+  ctx.fillRect(0, 0, w, h);
+
+  if (Array.isArray(wedges) && wedges.length > 0) {
+    ctx.globalCompositeOperation = "destination-out";
+    // Must be fully opaque for a clean, uniform punch-out.
+    ctx.fillStyle = "rgba(0, 0, 0, 1)";
+    for (const wedge of wedges) {
+      const poly = coveragePolyToImageBorders(wedge, w, h);
+      pathForPoly(ctx, poly || wedge.poly);
+      ctx.fill();
+    }
+  }
+
+  ctx.restore();
+}
+
+export function drawWedgeOutlinesNoClear(ctx, wedges, selectedCam, opts = {}) {
+  const selFillAlphaRaw = Number(opts.selectedFillAlpha);
+  const selectedFillAlpha = Number.isFinite(selFillAlphaRaw)
+    ? Math.max(0, Math.min(1, selFillAlphaRaw))
+    : 0.1;
   for (const wdg of wedges) {
     const isSel = wdg.cam === selectedCam;
     ctx.save();
     pathForWedge(ctx, wdg);
 
     // Keep fill subtle; the dim-mask does the heavy lifting.
-    ctx.fillStyle = isSel ? "rgba(102, 178, 255, 0.10)" : "rgba(255, 255, 255, 0.00)";
+    ctx.fillStyle = isSel
+      ? `rgba(102, 178, 255, ${selectedFillAlpha.toFixed(3)})`
+      : "rgba(255, 255, 255, 0.00)";
     ctx.strokeStyle = isSel ? "rgba(102, 178, 255, 0.95)" : "rgba(255, 255, 255, 0.28)";
     ctx.lineWidth = isSel ? 2.0 : 1.2;
-    if (isSel) ctx.fill();
+    if (isSel && selectedFillAlpha > 0) ctx.fill();
     ctx.stroke();
 
     // origin dot + forward arrow line (subtle)
@@ -310,4 +431,3 @@ export function drawWedges(ctx, wedges, selectedCam) {
   ctx.clearRect(0, 0, w, h);
   drawWedgeOutlinesNoClear(ctx, wedges, selectedCam);
 }
-
