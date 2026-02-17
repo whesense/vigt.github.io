@@ -282,7 +282,7 @@ body {
 /* Widen embedded demos without going full-fluid. */
 #interactive-demos .demo-embeds-wide {
   /* Bulma caps `.container` at 1152px on widescreens; override. */
-  max-width: 1400px !important;
+  max-width: 1280px !important;
   width: 100%;
 }
 
@@ -931,5 +931,4 @@ a:focus {
     box-shadow: none !important;
   }
 }
-
 
