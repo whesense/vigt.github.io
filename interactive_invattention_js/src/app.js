@@ -26,15 +26,13 @@ class App {
         this.selectedCamera = null;
         this.regionsByCamera = new Map(); // Map<cameraName, Array<region>>
         this.nextRegionId = 1; // Monotonic global region id/color assignment
-        this.aggregation = 'sum';
-        this.headSelection = 'mean';
+        this.headSelection = { mode: 'mean', headIdx: null };
         
         // Initialize UI elements
         this.loadingEl = document.getElementById('loading');
         this.mainContentEl = document.getElementById('main-content');
         this.errorEl = document.getElementById('error');
         this.errorMessageEl = document.getElementById('error-message');
-        this.attnPrecisionSelectEl = document.getElementById('attn-precision-select');
         
         // Initialize components
         this.cameraGallery = null;
@@ -112,14 +110,6 @@ class App {
             });
         }
 
-        if (this.attnPrecisionSelectEl) {
-            this.attnPrecisionSelectEl.addEventListener('change', (e) => {
-                const selected = App.normalizeAttnPrecision(e.target.value);
-                const url = new URL(window.location.href);
-                url.searchParams.set('attn_precision', selected);
-                window.location.href = url.toString();
-            });
-        }
     }
     
     /**
@@ -258,10 +248,6 @@ class App {
         const controlsContainer = document.querySelector('.bev-controls');
         this.controls = new Controls(
             controlsContainer,
-            (agg) => {
-                this.aggregation = agg;
-                this.updateBEVView();
-            },
             (head) => {
                 this.headSelection = head;
                 this.updateBEVView();
@@ -272,6 +258,16 @@ class App {
                 this.updateBevBaseImageForCurrentZoom();
             }
         );
+        this.controls.setHeadOptions(this.visualizer.getNumHeads());
+
+        // Keep BEV renderer zoom in sync with the currently selected UI zoom on first load.
+        // BEVView defaults to 80m internally, while the UI default may differ (e.g. 40m).
+        const zoomSelect = controlsContainer?.querySelector('#bev-zoom-select')
+            || document.getElementById('bev-zoom-select');
+        const initialZoom = parseInt(zoomSelect?.value, 10);
+        if (Number.isFinite(initialZoom)) {
+            this.bevView.setZoomMeters(initialZoom);
+        }
     }
     
     /**
@@ -496,9 +492,12 @@ class App {
                     }
                     
                     // Compute BEV attention map
+                    const meanHeads = this.headSelection.mode === 'mean';
+                    const headIdx = this.headSelection.mode === 'head' ? this.headSelection.headIdx : null;
                     const bevMap = this.visualizer.getInverseAttention(patches, {
-                        meanHeads: this.headSelection === 'mean',
-                        aggregation: this.aggregation
+                        meanHeads,
+                        headIdx,
+                        aggregation: 'sum'
                     });
                     
                     // Ensure region has a color
@@ -610,9 +609,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
     const urlParams = new URLSearchParams(window.location.search);
     const attnPrecision = App.normalizeAttnPrecision(urlParams.get('attn_precision') || 'auto');
-    if (app.attnPrecisionSelectEl) {
-        app.attnPrecisionSelectEl.value = attnPrecision;
-    }
 
     const dockContainer = document.getElementById('context-dock');
     const initDock = async () => {

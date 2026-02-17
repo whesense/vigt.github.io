@@ -166,6 +166,7 @@ code {
 .dataset-dock {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   gap: 8px;
   padding: 10px 12px;
   border: 1px solid var(--border);
@@ -198,6 +199,7 @@ code {
 .dataset-dock__film {
   display: flex;
   align-items: center;
+  min-width: 0;
   gap: 8px;
 }
 
@@ -219,6 +221,8 @@ code {
 
 .dataset-dock__strip {
   display: flex;
+  min-width: 0;
+  max-width: 100%;
   gap: 8px;
   overflow-x: auto;
   padding: 4px 2px;

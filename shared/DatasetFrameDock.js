@@ -327,7 +327,6 @@ export class DatasetFrameDock {
       btn.appendChild(placeholder);
 
       btn.addEventListener('click', () => {
-        if (frame.key === this._selectedFrameKey) return;
         this._setSelectedFrame(frame.key, { navigate: true });
       });
 

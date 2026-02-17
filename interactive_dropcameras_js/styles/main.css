@@ -57,6 +57,7 @@ body {
 
 .layout {
   min-height: 0;
+  min-width: 0;
   display: grid;
   /* Don't stretch the panels to fill leftover iframe height. */
   grid-template-rows: auto auto;
@@ -68,6 +69,7 @@ body {
 }
 
 .cameraStrip {
+  min-width: 0;
   border: 1px solid var(--panelBorder);
   background: var(--panel);
   border-radius: 12px;
@@ -78,6 +80,7 @@ body {
 .cameraStrip__inner {
   display: flex;
   gap: 10px;
+  max-width: 100%;
   overflow-x: auto;
   padding-bottom: 6px;
 }
@@ -124,13 +127,17 @@ body {
 
 .panels {
   min-height: 0;
+  min-width: 0;
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
 .panel {
   min-height: 0;
+  min-width: 0;
+  width: 100%;
   border: 1px solid var(--panelBorder);
   background: var(--panel);
   border-radius: 12px;
@@ -165,6 +172,8 @@ body {
 .imgStage {
   position: relative;
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
   height: auto;
   min-height: 280px;
   /* These occupancy renders are square; keeping a fixed ratio removes letterbox gaps. */

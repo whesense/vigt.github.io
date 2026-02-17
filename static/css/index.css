@@ -408,6 +408,12 @@ body {
   .demo-subsection__body {
     padding: 1.25rem 0 0.5rem;
   }
+  #demo-compare .demo-embed {
+    min-height: 600px;
+  }
+  #demo-compare .demo-embed iframe {
+    height: 600px;
+  }
   .demo-embed {
     height: auto;
     min-height: 520px;
@@ -931,4 +937,3 @@ a:focus {
     box-shadow: none !important;
   }
 }
-

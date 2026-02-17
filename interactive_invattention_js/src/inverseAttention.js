@@ -163,6 +163,10 @@ class InverseAttentionVisualizer {
     getCameraInfo(camName) {
         return this._nameToInfo[camName];
     }
+
+    getNumHeads() {
+        return this.nHeads;
+    }
     
     /**
      * Convert pixel coordinates to global patch index.

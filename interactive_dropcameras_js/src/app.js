@@ -17,8 +17,8 @@ function $(id) {
   return el;
 }
 
-function prettyCamName(cam) {
-  return cam.replace(/^ring_/, "").replaceAll("_", " ");
+function displayCamName(cam) {
+  return String(cam ?? "");
 }
 
 async function fetchJson(url) {
@@ -232,7 +232,7 @@ class DropCamerasApp {
     const items = this.cams.map((cam) => ({
       key: cam,
       src: this._cameraThumbSrc(cam),
-      label: prettyCamName(cam),
+      label: displayCamName(cam),
     }));
 
     // Clear and rebuild
@@ -285,7 +285,7 @@ class DropCamerasApp {
   _applySelection() {
     const overlay = this.sceneConfig.cameraOverlayMap?.[this.selectedCam];
     this.imgSelected.src = overlay || this._cameraImageSrc(this.selectedCam);
-    this.selectedLabel.textContent = prettyCamName(this.selectedCam);
+    this.selectedLabel.textContent = displayCamName(this.selectedCam);
   }
 
   _cameraImageSrc(cam) {

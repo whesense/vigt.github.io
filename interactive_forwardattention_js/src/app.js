@@ -35,7 +35,6 @@ class App {
         
         this.selectionStatusEl = document.getElementById('selection-status');
         this.headSelectEl = document.getElementById('heads-select');
-        this.attnPrecisionSelectEl = document.getElementById('attn-precision-select');
         this.bevZoomSelectEl = document.getElementById('bev-zoom-select');
         this.alphaSliderEl = document.getElementById('alpha-slider');
         this.alphaValueEl = document.getElementById('alpha-value');
@@ -92,14 +91,6 @@ class App {
             });
         }
 
-        if (this.attnPrecisionSelectEl) {
-            this.attnPrecisionSelectEl.addEventListener('change', (e) => {
-                const selected = App.normalizeAttnPrecision(e.target.value);
-                const url = new URL(window.location.href);
-                url.searchParams.set('attn_precision', selected);
-                window.location.href = url.toString();
-            });
-        }
     }
 
     /**
@@ -276,9 +267,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const app = new App();
     const urlParams = new URLSearchParams(window.location.search);
     const attnPrecision = App.normalizeAttnPrecision(urlParams.get('attn_precision') || 'auto');
-    if (app.attnPrecisionSelectEl) {
-        app.attnPrecisionSelectEl.value = attnPrecision;
-    }
 
     const dockContainer = document.getElementById('context-dock');
     const initDock = async () => {

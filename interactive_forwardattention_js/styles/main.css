@@ -101,9 +101,10 @@ header p {
     gap: 0.75rem;
 }
 
-.top-controls h2 {
+.controls-heading {
     margin-bottom: 0.25rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    color: var(--text-primary);
 }
 
 .control-group {
@@ -154,8 +155,17 @@ header p {
 .below-strip-layout {
     display: grid;
     grid-template-columns: minmax(320px, 420px) 1fr;
+    grid-template-areas: "controls bev";
     gap: 1.25rem;
     align-items: start;
+}
+
+.top-controls {
+    grid-area: controls;
+}
+
+#bev-view {
+    grid-area: bev;
 }
 
 /* Override compact iframe defaults with slightly larger spacing. */
@@ -181,6 +191,9 @@ header p {
 
     .below-strip-layout {
         grid-template-columns: 1fr;
+        grid-template-areas:
+            "bev"
+            "controls";
     }
 }
 

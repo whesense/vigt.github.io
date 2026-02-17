@@ -1,22 +1,19 @@
 /**
  * Controls Component
- * UI controls for aggregation, head selection, etc.
+ * UI controls for head selection and zoom.
  */
 
 export class Controls {
     /**
      * @param {HTMLElement} container - Container element
-     * @param {Function} onAggregationChange - Callback when aggregation changes
      * @param {Function} onHeadChange - Callback when head selection changes
      */
-    constructor(container, onAggregationChange, onHeadChange, onZoomChange = null) {
+    constructor(container, onHeadChange, onZoomChange = null) {
         this.container = container;
-        this.onAggregationChange = onAggregationChange;
         this.onHeadChange = onHeadChange;
         this.onZoomChange = onZoomChange;
         
-        this.aggregation = 'sum';
-        this.headSelection = 'mean';
+        this.headSelection = { mode: 'mean', headIdx: null };
         
         this.setupControls();
     }
@@ -37,30 +34,48 @@ export class Controls {
             });
         }
 
-        // Aggregation selector
-        const aggSelect = this.container.querySelector('#aggregation-select');
-        if (aggSelect) {
-            aggSelect.addEventListener('change', (e) => {
-                this.aggregation = e.target.value;
-                this.onAggregationChange(this.aggregation);
-            });
-        }
-        
         // Head selector
         const headSelect = this.container.querySelector('#heads-select');
         if (headSelect) {
             headSelect.addEventListener('change', (e) => {
-                this.headSelection = e.target.value;
+                const val = e.target.value;
+                if (val === 'mean') {
+                    this.headSelection = { mode: 'mean', headIdx: null };
+                } else if (val.startsWith('head:')) {
+                    const headIdx = parseInt(val.split(':')[1], 10);
+                    this.headSelection = { mode: 'head', headIdx };
+                }
                 this.onHeadChange(this.headSelection);
             });
         }
     }
-    
-    /**
-     * Get current aggregation method
-     */
-    getAggregation() {
-        return this.aggregation;
+
+    setHeadOptions(nHeads) {
+        const headSelect = this.container.querySelector('#heads-select');
+        if (!headSelect) return;
+
+        const selectedValue = this.headSelection.mode === 'head'
+            ? `head:${this.headSelection.headIdx}`
+            : 'mean';
+
+        headSelect.innerHTML = '';
+        const optMean = document.createElement('option');
+        optMean.value = 'mean';
+        optMean.textContent = 'Mean over heads';
+        headSelect.appendChild(optMean);
+
+        for (let h = 0; h < nHeads; h++) {
+            const opt = document.createElement('option');
+            opt.value = `head:${h}`;
+            opt.textContent = `Head ${h}`;
+            headSelect.appendChild(opt);
+        }
+
+        const hasSelected = Array.from(headSelect.options).some((opt) => opt.value === selectedValue);
+        headSelect.value = hasSelected ? selectedValue : 'mean';
+        if (!hasSelected) {
+            this.headSelection = { mode: 'mean', headIdx: null };
+        }
     }
     
     /**

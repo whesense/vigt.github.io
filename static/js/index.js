@@ -3,10 +3,23 @@ window.HELP_IMPROVE_VIDEOJS = false;
 // Auto-size embedded demo iframes to their content height.
 // Each iframe posts { type: "vigt:iframeHeight", height } from shared/iframe_autoheight.js
 (function setupIframeAutoHeight() {
-    const clampIframeHeight = (rawHeight, wrap) => {
+    const clampIframeHeight = (rawHeight, wrap, iframe) => {
         const isTall = !!wrap?.classList?.contains('demo-embed--tall');
         const minHeight = isTall ? 380 : 320;
         const h = Math.round(rawHeight);
+
+        const isCompare = iframe?.id === 'demo-compare-iframe';
+        const isMobile = (window.matchMedia && window.matchMedia('(max-width: 768px)').matches) ||
+            window.innerWidth <= 768;
+        if (isCompare && isMobile) {
+            const vvH = Number(window.visualViewport?.height || 0);
+            const viewportH = vvH > 0 ? vvH : Number(window.innerHeight || 0);
+            const maxHeight = viewportH > 0
+                ? Math.max(600, Math.min(Math.round(viewportH * 0.88), 700))
+                : 640;
+            return Math.max(520, Math.min(h, maxHeight));
+        }
+
         // Keep only a broad safety cap so iframe demos can grow naturally.
         const maxHeight = 12000;
         return Math.max(minHeight, Math.min(h, maxHeight));
@@ -22,7 +35,7 @@ window.HELP_IMPROVE_VIDEOJS = false;
         for (const iframe of iframes) {
             if (iframe.contentWindow === ev.source) {
                 const wrap = iframe.closest('.demo-embed');
-                const clamped = clampIframeHeight(h, wrap);
+                const clamped = clampIframeHeight(h, wrap, iframe);
                 iframe.style.height = `${clamped}px`;
                 if (wrap) wrap.style.height = `${clamped}px`;
                 break;
