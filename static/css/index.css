@@ -112,6 +112,13 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+.teaser .subtitle {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+}
+
 
 /* Publication Content Styling */
 .publication-title {
@@ -838,6 +845,12 @@ code {
   
   .teaser .hero-body {
     padding: 1rem;
+  }
+
+  .teaser .subtitle {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-top: 0.75rem;
   }
   
   .content.has-text-justified {
