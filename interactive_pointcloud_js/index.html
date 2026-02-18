@@ -50,35 +50,78 @@
       top: 12px;
       right: 12px;
       display: flex;
+      flex-direction: column;
       align-items: flex-start;
       gap: 10px;
       pointer-events: none;
       z-index: 2;
     }
+    #hud-top {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+    }
+    #scene-menu-toggle-wrap {
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+    }
+    #scene-menu-toggle-btn {
+      border: 1px solid rgba(255, 255, 255, 0.92);
+      border-radius: 10px;
+      min-height: 40px;
+      padding: 0 16px;
+      background: rgba(11, 13, 17, 0.92);
+      color: #ffffff;
+      font-size: 0.86rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 120ms ease, background-color 120ms ease;
+    }
+    #scene-menu-toggle-btn:hover:not(:disabled) {
+      opacity: 0.92;
+    }
+    #scene-menu-toggle-btn:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
     #context-dock {
       pointer-events: auto;
+      width: fit-content;
+      max-width: min(100%, 980px);
     }
     #pc-model-wrap {
       margin-left: auto;
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
       pointer-events: none;
     }
     .pc-model-label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
       color: #ffffff;
-      font-size: 0.78rem;
-      font-weight: 700;
+      font-size: 0.86rem;
+      font-weight: 800;
       letter-spacing: 0.03em;
       line-height: 1;
       text-align: left;
+      white-space: nowrap;
       text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     }
     #pc-model-switch {
       pointer-events: auto;
       display: inline-flex;
       align-items: stretch;
+      min-height: 40px;
       background: #0b0d11;
       border: 2px solid rgba(255, 255, 255, 0.92);
       border-radius: 12px;
@@ -117,6 +160,19 @@
       opacity: 0.6;
       cursor: default;
     }
+    @media (max-width: 740px) {
+      #pc-model-wrap {
+        margin-left: 0;
+      }
+      #context-dock {
+        max-width: 100%;
+      }
+      .pc-model-btn {
+        min-width: 74px;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+      }
+    }
   </style>
   <link rel="stylesheet" href="../shared/iframe_theme.css">
   <link rel="stylesheet" href="../shared/iframe_compact.css">
@@ -135,14 +191,19 @@
   <div id="main" class="hidden">
     <canvas id="gl-canvas"></canvas>
     <div id="hud">
-      <div id="context-dock" class="context-dock"></div>
-      <div id="pc-model-wrap">
-        <div class="pc-model-label">Select:</div>
-        <div id="pc-model-switch" role="group" aria-label="Point cloud model selector">
-          <button id="pc-model-btn-gt" class="pc-model-btn" type="button" data-model="gt">GT</button>
-          <button id="pc-model-btn-vigt" class="pc-model-btn" type="button" data-model="vigt">VIGT</button>
+      <div id="hud-top">
+        <div id="scene-menu-toggle-wrap">
+          <button id="scene-menu-toggle-btn" type="button" aria-pressed="true">Hide scenes</button>
+        </div>
+        <div id="pc-model-wrap">
+          <div class="pc-model-label">Select:</div>
+          <div id="pc-model-switch" role="group" aria-label="Point cloud model selector">
+            <button id="pc-model-btn-gt" class="pc-model-btn" type="button" data-model="gt">GT</button>
+            <button id="pc-model-btn-vigt" class="pc-model-btn" type="button" data-model="vigt">VIGT</button>
+          </div>
         </div>
       </div>
+      <div id="context-dock" class="context-dock"></div>
     </div>
   </div>
 

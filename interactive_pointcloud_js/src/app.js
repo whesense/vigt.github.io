@@ -67,6 +67,8 @@ class App {
     this.errorMsgEl = null;
     this.mainEl = null;
     this.canvas = null;
+    this.contextDockEl = null;
+    this.sceneMenuToggleBtnEl = null;
     this.pcSwitchEl = null;
     this.pcModelBtnGtEl = null;
     this.pcModelBtnVigtEl = null;
@@ -77,6 +79,7 @@ class App {
     this.pcOptions = [];
     this.pcCacheByUrl = new Map();
     this.activeModelKey = '';
+    this.isSceneMenuVisible = true;
   }
 
   async init() {
@@ -85,14 +88,25 @@ class App {
     this.errorMsgEl = document.getElementById('error-message');
     this.mainEl = document.getElementById('main');
     this.canvas = document.getElementById('gl-canvas');
+    this.contextDockEl = document.getElementById('context-dock');
+    this.sceneMenuToggleBtnEl = document.getElementById('scene-menu-toggle-btn');
     this.pcSwitchEl = document.getElementById('pc-model-switch');
     this.pcModelBtnGtEl = document.getElementById('pc-model-btn-gt');
     this.pcModelBtnVigtEl = document.getElementById('pc-model-btn-vigt');
 
     const urlParams = new URLSearchParams(window.location.search);
     const defaultScene = 'data/pointclouds/vigt_frame000121.json';
+    const sceneMenuParam =
+      urlParams.get('sceneMenu') ??
+      urlParams.get('scene_menu') ??
+      '';
+    const normalizedSceneMenuParam = String(sceneMenuParam).trim().toLowerCase();
+    const initialSceneMenuVisible = normalizedSceneMenuParam
+      ? !['0', 'false', 'off', 'hide', 'hidden', 'no'].includes(normalizedSceneMenuParam)
+      : true;
+    this._bindSceneMenuToggle();
 
-    const dockContainer = document.getElementById('context-dock');
+    const dockContainer = this.contextDockEl;
     const initDock = async () => {
       if (!dockContainer) return null;
       try {
@@ -106,6 +120,8 @@ class App {
     };
 
     this.dock = await initDock();
+    this._setSceneMenuVisible(initialSceneMenuVisible, { syncQuery: false });
+    this._setSceneMenuToggleEnabled(!!this.dock);
 
     let scenePath = urlParams.get('scene');
     if (scenePath) {
@@ -275,6 +291,49 @@ class App {
       url.searchParams.set('pc', key);
       url.searchParams.delete('pointcloud');
     }
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  _bindSceneMenuToggle() {
+    if (!this.sceneMenuToggleBtnEl) return;
+    this.sceneMenuToggleBtnEl.addEventListener('click', () => {
+      this._setSceneMenuVisible(!this.isSceneMenuVisible, { syncQuery: true });
+    });
+  }
+
+  _setSceneMenuVisible(visible, { syncQuery = true } = {}) {
+    const nextVisible = !!visible;
+    this.isSceneMenuVisible = nextVisible;
+    if (this.contextDockEl) {
+      this.contextDockEl.hidden = !nextVisible;
+      this.contextDockEl.style.display = nextVisible ? '' : 'none';
+    }
+    if (this.sceneMenuToggleBtnEl) {
+      this.sceneMenuToggleBtnEl.textContent = nextVisible ? 'Hide scenes' : 'Show scenes';
+      this.sceneMenuToggleBtnEl.setAttribute('aria-pressed', nextVisible ? 'true' : 'false');
+      this.sceneMenuToggleBtnEl.title = nextVisible
+        ? 'Hide scene selection menu'
+        : 'Show scene selection menu';
+    }
+    if (syncQuery) {
+      this._updateSceneMenuQueryParam(nextVisible);
+    }
+  }
+
+  _setSceneMenuToggleEnabled(enabled) {
+    if (!this.sceneMenuToggleBtnEl) return;
+    const canToggle = !!enabled;
+    this.sceneMenuToggleBtnEl.disabled = !canToggle;
+    if (!canToggle) {
+      this.sceneMenuToggleBtnEl.textContent = 'Scenes unavailable';
+      this.sceneMenuToggleBtnEl.setAttribute('aria-pressed', 'false');
+    }
+  }
+
+  _updateSceneMenuQueryParam(visible) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('sceneMenu', visible ? '1' : '0');
+    url.searchParams.delete('scene_menu');
     window.history.replaceState({}, '', url.toString());
   }
 
