@@ -7,12 +7,12 @@
 import { loadCompareScene } from './sceneLoader.js?v=2026-02-13-layout-fix1';
 import { ImageStrip } from '../../shared/ImageStrip.js';
 import { loadPointCloudData } from './loaders/pointCloudLoader.js?v=2026-02-13-layout-fix1';
-import { CompareMultiViewRenderer } from './renderers/CompareMultiViewRenderer.js?v=2026-02-17-dpr-stability-v2';
+import { CompareMultiViewRenderer } from './renderers/CompareMultiViewRenderer.js?v=2026-02-18-vox-mesh-v1';
 import { DatasetFrameDock } from '../../shared/DatasetFrameDock.js';
 import { orderCameraItemsForUi } from '../../shared/cameraOrder.js';
 
 class App {
-  static VERSION = '2026-02-17-compare-v2f-pane-heuristic';
+  static VERSION = '2026-02-18-compare-vox-mesh-v1';
   static NARROW_LAYOUT_MAX_WIDTH = 1120;
   static NARROW_LAYOUT_MIN_ASPECT = 1.4;
 
@@ -176,6 +176,8 @@ class App {
       url.searchParams.delete('vox_z_min');
       url.searchParams.delete('vox_z_max');
       url.searchParams.delete('vox_top_layers');
+      url.searchParams.delete('vox_mode');
+      url.searchParams.delete('occ_mode');
       url.searchParams.delete('dpr');
       url.searchParams.delete('dpr_idle');
       url.searchParams.delete('dpr_active');
@@ -337,12 +339,15 @@ class App {
     const dropTopLayers = Number.isFinite(topLayersRaw)
       ? Math.max(0, Math.floor(topLayersRaw))
       : undefined;
+    const modeRaw = (urlParams.get('vox_mode') || urlParams.get('occ_mode') || '').trim().toLowerCase();
+    const mode = modeRaw === 'cubes' ? 'cubes' : 'mesh';
 
     const opts = {};
     if (Number.isFinite(threshold)) opts.threshold = threshold;
     if (Number.isFinite(zFilterMin)) opts.zFilterMin = zFilterMin;
     if (Number.isFinite(zFilterMax)) opts.zFilterMax = zFilterMax;
     if (Number.isFinite(dropTopLayers)) opts.dropTopLayers = dropTopLayers;
+    opts.mode = mode;
     return opts;
   }
 

@@ -14,6 +14,8 @@ const FLIP_LEFT_RIGHT = true;
 const DEFAULT_MAX_IDLE_DEVICE_PIXEL_RATIO = 0.9;
 const DEFAULT_ACTIVE_PIXEL_RATIO = 0.9;
 const DEFAULT_INTERACTION_HOLD_MS = 180;
+const OCC_RENDER_MODE_CUBES = 'cubes';
+const OCC_RENDER_MODE_MESH = 'mesh';
 
 function clampPositive(value, fallback, min = 0.5, max = 4) {
   const num = Number(value);
@@ -51,7 +53,13 @@ function sizeCanvasRenderer(renderer, canvas) {
   return { wCss, hCss };
 }
 
-function visualizeOccupancyWithCubes(occupancyData, options = {}) {
+function normalizeOccRenderMode(modeRaw) {
+  const mode = String(modeRaw || '').trim().toLowerCase();
+  if (mode === OCC_RENDER_MODE_MESH) return OCC_RENDER_MODE_MESH;
+  return OCC_RENDER_MODE_CUBES;
+}
+
+function resolveOccupancyRenderParams(occupancyData, options = {}) {
   const gridShape = occupancyData.gridShape;
   const bounds = occupancyData.bounds;
   const occupancy = occupancyData.occupancy;
@@ -90,9 +98,108 @@ function visualizeOccupancyWithCubes(occupancyData, options = {}) {
     zFilterMax = Math.min(zMax, zFilterMin + voxelSizeZ);
   }
 
+  const numVoxels = Number(occupancyData.numVoxels) || (nx * ny * nz);
+  const gridVoxelCount = nx * ny * nz;
+  if (occEncoding === 'bitset') {
+    const bakeThreshold = Number(occupancyData.bakeThreshold);
+    if (Number.isFinite(bakeThreshold) && Math.abs(threshold - bakeThreshold) > 1e-9) {
+      console.warn(
+        `Bitset occupancy was baked at threshold=${bakeThreshold}; URL threshold=${threshold} cannot change selection.`
+      );
+    }
+  }
+
+  return {
+    occupancy,
+    occupancyBits,
+    occEncoding,
+    bounds,
+    gridShape,
+    numVoxels,
+    gridVoxelCount,
+    nx,
+    ny,
+    nz,
+    xMin,
+    xMax,
+    yMin,
+    yMax,
+    zMin,
+    zMax,
+    voxelSizeX,
+    voxelSizeY,
+    voxelSizeZ,
+    threshold,
+    zFilterMin,
+    zFilterMax,
+    xyStride: nz * ny,
+    xStride: nz * ny,
+    yStride: nz,
+  };
+}
+
+function forEachOccupiedVoxel(params, callback) {
+  const {
+    occEncoding,
+    occupancyBits,
+    occupancy,
+    threshold,
+    nx,
+    ny,
+    nz,
+    numVoxels,
+    gridVoxelCount,
+    xyStride,
+  } = params;
+
+  if (occEncoding === 'bitset') {
+    const bitsetVoxelCount = Math.min(numVoxels, gridVoxelCount);
+    for (let byteIdx = 0; byteIdx < occupancyBits.length; byteIdx++) {
+      const byteVal = occupancyBits[byteIdx];
+      if (byteVal === 0) continue;
+      for (let bit = 0; bit < 8; bit++) {
+        if ((byteVal & (1 << bit)) === 0) continue;
+        const idx = (byteIdx << 3) + bit;
+        if (idx >= bitsetVoxelCount) break;
+        const x = Math.floor(idx / xyStride);
+        const rem = idx - x * xyStride;
+        const y = Math.floor(rem / nz);
+        const z = rem - y * nz;
+        callback(x, y, z, idx);
+      }
+    }
+    return;
+  }
+
+  for (let x = 0; x < nx; x++) {
+    for (let y = 0; y < ny; y++) {
+      for (let z = 0; z < nz; z++) {
+        const idx = z + y * nz + x * nz * ny;
+        if (idx >= occupancy.length) continue;
+        if (occupancy[idx] <= threshold) continue;
+        callback(x, y, z, idx);
+      }
+    }
+  }
+}
+
+function visualizeOccupancyWithCubes(occupancyData, options = {}) {
+  const startedAtMs = performance.now();
+  const params = resolveOccupancyRenderParams(occupancyData, options);
+  const {
+    zMin,
+    yMin,
+    xMin,
+    voxelSizeX,
+    voxelSizeY,
+    voxelSizeZ,
+    zFilterMin,
+    zFilterMax,
+  } = params;
+
   const binSize = 0.1;
   const voxelsByZBin = new Map();
-  const xyStride = nz * ny;
+  let totalCubes = 0;
   const addVoxel = (x, y, z) => {
     const worldZ = zMin + (z + 0.5) * voxelSizeZ;
     if (worldZ < zFilterMin || worldZ > zFilterMax) return;
@@ -104,45 +211,10 @@ function visualizeOccupancyWithCubes(occupancyData, options = {}) {
       voxelsByZBin.set(zBin, arr);
     }
     arr.push({ x, y, z, worldZ });
+    totalCubes += 1;
   };
 
-  if (occEncoding === 'bitset') {
-    const numVoxels = Number(occupancyData.numVoxels) || (nx * ny * nz);
-    const bakeThreshold = Number(occupancyData.bakeThreshold);
-    if (Number.isFinite(bakeThreshold) && Math.abs(threshold - bakeThreshold) > 1e-9) {
-      console.warn(
-        `Bitset occupancy was baked at threshold=${bakeThreshold}; URL threshold=${threshold} cannot change selection.`
-      );
-    }
-
-    for (let byteIdx = 0; byteIdx < occupancyBits.length; byteIdx++) {
-      const byteVal = occupancyBits[byteIdx];
-      if (byteVal === 0) continue;
-      for (let bit = 0; bit < 8; bit++) {
-        if ((byteVal & (1 << bit)) === 0) continue;
-        const idx = (byteIdx << 3) + bit;
-        if (idx >= numVoxels) break;
-        const x = Math.floor(idx / xyStride);
-        const rem = idx - x * xyStride;
-        const y = Math.floor(rem / nz);
-        const z = rem - y * nz;
-        addVoxel(x, y, z);
-      }
-    }
-  } else {
-    // z + y*nz + x*nz*ny
-    for (let x = 0; x < nx; x++) {
-      for (let y = 0; y < ny; y++) {
-        for (let z = 0; z < nz; z++) {
-          const idx = z + y * nz + x * nz * ny;
-          if (idx >= occupancy.length) continue;
-          const p = occupancy[idx];
-          if (p <= threshold) continue;
-          addVoxel(x, y, z);
-        }
-      }
-    }
-  }
+  forEachOccupiedVoxel(params, addVoxel);
 
   const group = new THREE.Group();
   const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -181,7 +253,170 @@ function visualizeOccupancyWithCubes(occupancyData, options = {}) {
     group.add(instanced);
   });
 
+  console.log(
+    `[occ-cubes] cubes=${totalCubes}, zBins=${voxelsByZBin.size}, drawCalls~=${group.children.length}, buildMs=${(performance.now() - startedAtMs).toFixed(1)}`
+  );
+
   return group;
+}
+
+function visualizeOccupancyAsMergedMesh(occupancyData, options = {}) {
+  const startedAtMs = performance.now();
+  const params = resolveOccupancyRenderParams(occupancyData, options);
+  const {
+    nx,
+    ny,
+    nz,
+    gridVoxelCount,
+    xStride,
+    yStride,
+    zMin,
+    xMin,
+    yMin,
+    voxelSizeX,
+    voxelSizeY,
+    voxelSizeZ,
+    zFilterMin,
+    zFilterMax,
+  } = params;
+
+  const occupiedMask = new Uint8Array(gridVoxelCount);
+  let occupiedCount = 0;
+
+  forEachOccupiedVoxel(params, (x, y, z, idx) => {
+    const worldZ = zMin + (z + 0.5) * voxelSizeZ;
+    if (worldZ < zFilterMin || worldZ > zFilterMax) return;
+    occupiedMask[idx] = 1;
+    occupiedCount += 1;
+  });
+
+  if (occupiedCount === 0) {
+    console.log('[occ-mesh] no occupied voxels after threshold/filter');
+    return new THREE.Group();
+  }
+
+  let faceCount = 0;
+  for (let x = 0; x < nx; x++) {
+    for (let y = 0; y < ny; y++) {
+      for (let z = 0; z < nz; z++) {
+        const idx = z + y * nz + x * yStride * ny;
+        if (occupiedMask[idx] === 0) continue;
+
+        if (x === 0 || occupiedMask[idx - xStride] === 0) faceCount += 1;
+        if (x === nx - 1 || occupiedMask[idx + xStride] === 0) faceCount += 1;
+        if (y === 0 || occupiedMask[idx - yStride] === 0) faceCount += 1;
+        if (y === ny - 1 || occupiedMask[idx + yStride] === 0) faceCount += 1;
+        if (z === 0 || occupiedMask[idx - 1] === 0) faceCount += 1;
+        if (z === nz - 1 || occupiedMask[idx + 1] === 0) faceCount += 1;
+      }
+    }
+  }
+
+  if (faceCount === 0) {
+    console.log('[occ-mesh] all occupied voxels were fully enclosed');
+    return new THREE.Group();
+  }
+
+  const floatsPerFace = 18; // 2 triangles * 3 vertices * xyz
+  const positions = new Float32Array(faceCount * floatsPerFace);
+  const colors = new Float32Array(faceCount * floatsPerFace);
+  let out = 0;
+
+  const zSpan = Math.max(1e-6, zFilterMax - zFilterMin);
+  const writeVertex = (x, y, z, r, g, b) => {
+    positions[out + 0] = x;
+    positions[out + 1] = y;
+    positions[out + 2] = z;
+    colors[out + 0] = r;
+    colors[out + 1] = g;
+    colors[out + 2] = b;
+    out += 3;
+  };
+  const emitQuad = (ax, ay, az, bx, by, bz, cx, cy, cz, dx, dy, dz, r, g, b) => {
+    writeVertex(ax, ay, az, r, g, b);
+    writeVertex(bx, by, bz, r, g, b);
+    writeVertex(cx, cy, cz, r, g, b);
+    writeVertex(ax, ay, az, r, g, b);
+    writeVertex(cx, cy, cz, r, g, b);
+    writeVertex(dx, dy, dz, r, g, b);
+  };
+
+  const halfZ = voxelSizeZ * 0.5;
+
+  for (let x = 0; x < nx; x++) {
+    for (let y = 0; y < ny; y++) {
+      for (let z = 0; z < nz; z++) {
+        const idx = z + y * nz + x * yStride * ny;
+        if (occupiedMask[idx] === 0) continue;
+
+        const worldZ = zMin + (z + 0.5) * voxelSizeZ;
+        const x0 = yMin + y * voxelSizeY;
+        const x1 = x0 + voxelSizeY;
+        const y0 = xMin + x * voxelSizeX;
+        const y1 = y0 + voxelSizeX;
+        const z0 = worldZ - halfZ;
+        const z1 = worldZ + halfZ;
+
+        const t = Math.max(0, Math.min(1, (worldZ - zFilterMin) / zSpan));
+        const [r, g, b] = turboColormap(t);
+
+        // Neighbor checks use grid axes (x, y, z), while world coords use swapped XY mapping:
+        // worldX <- grid y, worldY <- grid x.
+        // So x-faces are planes of constant worldY and y-faces are constant worldX.
+        if (x === 0 || occupiedMask[idx - xStride] === 0) {
+          emitQuad(x0, y0, z0, x1, y0, z0, x1, y0, z1, x0, y0, z1, r, g, b);
+        }
+        if (x === nx - 1 || occupiedMask[idx + xStride] === 0) {
+          emitQuad(x1, y1, z0, x0, y1, z0, x0, y1, z1, x1, y1, z1, r, g, b);
+        }
+        if (y === 0 || occupiedMask[idx - yStride] === 0) {
+          emitQuad(x0, y1, z0, x0, y0, z0, x0, y0, z1, x0, y1, z1, r, g, b);
+        }
+        if (y === ny - 1 || occupiedMask[idx + yStride] === 0) {
+          emitQuad(x1, y0, z0, x1, y1, z0, x1, y1, z1, x1, y0, z1, r, g, b);
+        }
+        if (z === 0 || occupiedMask[idx - 1] === 0) {
+          emitQuad(x0, y0, z0, x1, y0, z0, x1, y1, z0, x0, y1, z0, r, g, b);
+        }
+        if (z === nz - 1 || occupiedMask[idx + 1] === 0) {
+          emitQuad(x0, y1, z1, x1, y1, z1, x1, y0, z1, x0, y0, z1, r, g, b);
+        }
+      }
+    }
+  }
+
+  const finalPositions = out === positions.length ? positions : positions.subarray(0, out);
+  const finalColors = out === colors.length ? colors : colors.subarray(0, out);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(finalPositions, 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(finalColors, 3));
+  geometry.computeBoundingSphere();
+
+  const material = new THREE.MeshBasicMaterial({
+    vertexColors: true,
+    side: THREE.DoubleSide,
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  const triangles = Math.floor(finalPositions.length / 9);
+  const emittedFaces = Math.floor(finalPositions.length / floatsPerFace);
+  console.log(
+    `[occ-mesh] occupied=${occupiedCount}, faces=${emittedFaces}, triangles=${triangles}, drawCalls~=1, buildMs=${(performance.now() - startedAtMs).toFixed(1)}`
+  );
+  return mesh;
+}
+
+function buildOccupancyGeometry(occupancyData, options = {}) {
+  const mode = normalizeOccRenderMode(options.mode);
+  if (mode === OCC_RENDER_MODE_MESH) {
+    try {
+      return visualizeOccupancyAsMergedMesh(occupancyData, options);
+    } catch (error) {
+      console.error('Merged occupancy mesh build failed; falling back to instanced cubes.', error);
+      return visualizeOccupancyWithCubes(occupancyData, options);
+    }
+  }
+  return visualizeOccupancyWithCubes(occupancyData, options);
 }
 
 function buildPointCloud(points, count, bounds, opts = {}) {
@@ -380,7 +615,7 @@ export class CompareMultiViewRenderer {
     this.controls.addEventListener('end', this._onControlsEnd);
 
     // Build occupancy scene
-    const occGroup = visualizeOccupancyWithCubes(
+    const occGroup = buildOccupancyGeometry(
       this.occ,
       this.occRenderOptions
     );
