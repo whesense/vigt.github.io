@@ -123,6 +123,56 @@ window.HELP_IMPROVE_VIDEOJS = false;
     }
 })();
 
+// Minimal one-at-a-time media slider with prev/next arrows.
+(function setupSimpleSliders() {
+    const sliders = document.querySelectorAll('[data-simple-slider]');
+    if (!sliders.length) return;
+
+    const normalizeIndex = (value, length) => {
+        if (!length) return 0;
+        return ((value % length) + length) % length;
+    };
+
+    for (const slider of sliders) {
+        const items = Array.from(slider.querySelectorAll('[data-simple-item]'));
+        const prev = slider.querySelector('[data-simple-prev]');
+        const next = slider.querySelector('[data-simple-next]');
+        if (!items.length) continue;
+
+        let index = items.findIndex((item) => !item.hidden);
+        if (index < 0) index = 0;
+
+        const render = (targetIndex) => {
+            index = normalizeIndex(targetIndex, items.length);
+            items.forEach((item, itemIndex) => {
+                const active = itemIndex === index;
+                item.hidden = !active;
+                item.classList.toggle('is-active', active);
+                item.setAttribute('aria-hidden', active ? 'false' : 'true');
+
+                const video = item.querySelector('video');
+                if (!video) return;
+                if (active) {
+                    video.play().catch(() => {});
+                } else {
+                    video.pause();
+                }
+            });
+        };
+
+        if (items.length <= 1) {
+            if (prev) prev.hidden = true;
+            if (next) next.hidden = true;
+            render(0);
+            continue;
+        }
+
+        prev?.addEventListener('click', () => render(index - 1));
+        next?.addEventListener('click', () => render(index + 1));
+        render(index);
+    }
+})();
+
 // More Works Dropdown Functionality
 function toggleMoreWorks() {
     const dropdown = document.getElementById('moreWorksDropdown');
@@ -248,16 +298,22 @@ function setupVideoCarouselAutoplay() {
 $(document).ready(function() {
     // Check for click events on the navbar burger icon
 
-    var options = {
-		slidesToScroll: 1,
-		slidesToShow: 1,
-		loop: true,
-		infinite: true,
-		autoplay: true,
-		autoplaySpeed: 5000,
-    }
+	var options = {
+			slidesToScroll: 1,
+			slidesToShow: 1,
+			loop: false,
+			infinite: false,
+			autoplay: false,
+			autoplaySpeed: 5000,
+			pagination: false,
+			breakpoints: [
+			    { changePoint: 480, slidesToShow: 1, slidesToScroll: 1 },
+			    { changePoint: 640, slidesToShow: 1, slidesToScroll: 1 },
+			    { changePoint: 768, slidesToShow: 1, slidesToScroll: 1 }
+			]
+	    }
 
-	// Initialize all div with carousel class (if the lib is present)
+		// Initialize project media carousels (if the lib is present)
     if (typeof bulmaCarousel !== 'undefined') {
         bulmaCarousel.attach('.carousel', options);
     }

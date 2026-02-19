@@ -45,7 +45,7 @@
   
   <!-- Critical CSS -->
   <link rel="stylesheet" href="static/css/bulma.min.css">
-  <link rel="stylesheet" href="static/css/index.css?v=2026-01-29-demos-wide-v1">
+  <link rel="stylesheet" href="static/css/index.css?v=2026-02-19-hero-visuals-v3">
   
   <!-- Non-critical CSS -->
   <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
@@ -68,7 +68,7 @@
   <script defer src="static/js/bulma-carousel.min.js"></script>
   <script defer src="static/js/bulma-slider.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script defer src="static/js/index.js?v=2026-02-13-iframe-height-unclamp-v2"></script>
+  <script defer src="static/js/index.js?v=2026-02-19-hero-visuals-v3"></script>
   
   <!-- PDF.js Configuration -->
   <script>
@@ -217,12 +217,22 @@
 <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
-      <video autoplay muted loop playsinline height="100%" preload="metadata">
-        <source src="static/videos/bev_scene_77_hero.mp4" type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        Model takes camera images as input (bottom pane) and estimates scene occupancy (right), lidar point cloud (left) shown for reference.
-      </h2>
+      <div class="simple-slider simple-slider--hero" data-simple-slider aria-label="Hero scene carousel">
+        <button class="simple-slider__nav simple-slider__nav--prev" type="button" data-simple-prev aria-label="Previous scene">&#10094;</button>
+        <div class="simple-slider__viewport">
+          <div class="simple-slider__item is-active" data-simple-item>
+            <video class="hero-scene-video" autoplay muted loop playsinline preload="metadata">
+              <source src="static/videos/depth_occ/scene002_occ_depth_rgb.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="simple-slider__item" data-simple-item hidden>
+            <video class="hero-scene-video" autoplay muted loop playsinline preload="metadata">
+              <source src="static/videos/depth_occ/scene016_occ_depth_rgb.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <button class="simple-slider__nav simple-slider__nav--next" type="button" data-simple-next aria-label="Next scene">&#10095;</button>
+      </div>
     </div>
   </div>
 </section>
@@ -276,15 +286,42 @@
     <div class="columns is-centered">
       <div class="column is-11">
         <h2 class="title is-3">Visualizations</h2>
-        <div class="content has-text-justified">
-          <p>
-            Visualizations showcasing model occupancy estimation
-          </p>
+        <div class="visual-group">
+          <h3 class="title is-4">Videos</h3>
+          <div class="simple-slider simple-slider--visual" data-simple-slider aria-label="BEV occupancy carousel">
+            <button class="simple-slider__nav simple-slider__nav--prev" type="button" data-simple-prev aria-label="Previous BEV visualization">&#10094;</button>
+            <div class="simple-slider__viewport">
+              <div class="simple-slider__item is-active" data-simple-item>
+                <video class="visual-media" autoplay muted loop playsinline preload="metadata">
+                  <source src="static/videos/bev_occ/bev_scene_77_hero.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="simple-slider__item" data-simple-item hidden>
+                <video class="visual-media" autoplay muted loop playsinline preload="metadata">
+                  <source src="static/videos/bev_occ/scene_111.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <button class="simple-slider__nav simple-slider__nav--next" type="button" data-simple-next aria-label="Next BEV visualization">&#10095;</button>
+          </div>
         </div>
-        <div class="has-text-centered">
-          <video autoplay muted loop playsinline preload="metadata" style="width: 100%; height: auto; border-radius: 12px;">
-            <source src="static/videos/scene016_occ_depth_rgb.mp4" type="video/mp4">
-          </video>
+        <div class="visual-group">
+          <h3 class="title is-4">Illustrations</h3>
+          <div class="simple-slider simple-slider--visual" data-simple-slider aria-label="Illustrations carousel">
+            <button class="simple-slider__nav simple-slider__nav--prev" type="button" data-simple-prev aria-label="Previous illustration">&#10094;</button>
+            <div class="simple-slider__viewport">
+              <div class="simple-slider__item is-active" data-simple-item>
+                <img class="visual-media visual-image" loading="lazy" src="static/images/illustrations/2026-02-19%2014.52.47.jpg" alt="Illustration 1">
+              </div>
+              <div class="simple-slider__item" data-simple-item hidden>
+                <img class="visual-media visual-image" loading="lazy" src="static/images/illustrations/2026-02-19%2014.53.18.jpg" alt="Illustration 2">
+              </div>
+              <div class="simple-slider__item" data-simple-item hidden>
+                <img class="visual-media visual-image" loading="lazy" src="static/images/illustrations/2026-02-19%2014.53.50.jpg" alt="Illustration 3">
+              </div>
+            </div>
+            <button class="simple-slider__nav simple-slider__nav--next" type="button" data-simple-next aria-label="Next illustration">&#10095;</button>
+          </div>
         </div>
       </div>
     </div>
